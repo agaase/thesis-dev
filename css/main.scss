@@ -1,0 +1,83 @@
+$main-color: #888;
+$main-font-color: #222;
+body,html{
+    height: 100%;
+    color: $main-font-color;
+}
+.menu{
+	position: absolute;
+    height: 95%;
+    top: 2.5%;
+    right: 50px;
+    background-color: #fff;
+    box-shadow: 0 0 5px;
+    border-radius: 1%;
+    padding: 0 1%;
+    width: 27%;
+    padding-bottom: 20px;
+    h3{
+    	font-size: 135%;
+    }
+    svg{
+        margin-top:20px;
+    }
+    .xLabel{
+        border: 1px solid #ccc;
+        height: 20px;
+        width: 30px;
+        text-align: center;
+        border-radius: 2px;
+        line-height: 20px;
+        font-size: 75%;
+        background-color: #eee;
+        &.selected{
+            background-color: #0097A7;
+            color: #fff;
+        }
+    }
+    .lineHead{
+        width:100px;
+    }
+    .filters{
+        .head{
+            margin-bottom: 10px;
+        }
+        .filter{
+            float: left;
+            width: 45%;
+            margin-right: 5%;
+            height: 25px;
+            .labelFilter{
+                float: left;
+                width: 80%;
+                height: 100%;
+                line-height: 25px;
+                font-size: 90%;
+            }
+            .checkbox{
+                float: left;
+                width: 15%;
+                height: 75%;
+                line-height: 25px;
+                margin: 0;
+                border: 1px solid #ccc;
+                margin-right: 5%;
+                margin-top: 3%;
+                background-color: #eee;ight: 25px;
+            }
+        }
+    }
+}
+.outer-cont{
+	height: 100%;
+
+	.inner-cont{
+		height: 100%;
+
+		#map{
+			height: 100%;
+			padding: 0;
+		}
+	}
+	
+}
