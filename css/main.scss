@@ -4,19 +4,40 @@ body,html{
     height: 100%;
     color: $main-font-color;
 }
+.mapFilters{
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    .mapFilter{
+        height: 20px;
+        width: 71px;
+        float: left;
+        margin-right: 10px;
+        border: 1px solid #444;
+        text-align: center;
+        padding: 5px;
+        line-height: 9px;
+        border-radius: 5px;
+        &.selected{
+            background-color: #0097A7;
+            color: #fff; 
+        }
+    }
+}
 .menu{
 	position: absolute;
-    height: 95%;
-    top: 2.5%;
-    right: 50px;
-    background-color: #fff;
-    box-shadow: 0 0 5px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*background-color: #fff;*/
     border-radius: 1%;
-    padding: 0 1%;
+    padding-left: 10%;
+    padding: 0.5% 2%;
     width: 27%;
     padding-bottom: 20px;
     h3{
-    	font-size: 135%;
+    	font-size: 275%;
     }
     svg{
         margin-top:20px;

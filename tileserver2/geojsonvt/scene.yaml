@@ -1,0 +1,26 @@
+cameras:
+    camera1:
+        type: perspective
+
+lights:
+    light1:
+        type: directional
+        direction: [0, 1, -.5]
+        diffuse: .3
+        ambient: 1
+
+sources:
+    mapzen:
+        type: GeoJSON
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json
+        url_params:
+            api_key: mapzen-tDHBHDp
+        max_zoom: 16
+
+layers:
+    landuse:
+        data: { source: mapzen }
+        draw:
+            polygons:
+                order: function() { return feature.sort_rank; }
+                color: '#aaffaa'

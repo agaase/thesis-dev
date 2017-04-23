@@ -13,7 +13,7 @@ var tileInformation = require('./tileInfo.js');
 var vtpbf = require('vt-pbf')   
 
 
-tilelive.load('mbtiles:./tiles/delhi.mbtiles', function(err, source) {
+tilelive.load('mbtiles:./tiles/delhi2.mbtiles', function(err, source) {
 
     if (err) {
         throw err;
