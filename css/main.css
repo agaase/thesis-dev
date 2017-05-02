@@ -1,79 +1,83 @@
 body, html {
   height: 100%;
-  color: #222; }
-
-.mapFilters {
-  display: none;
-  position: absolute;
-  top: 20px;
-  left: 20px; }
-  .mapFilters .mapFilter {
-    height: 20px;
-    width: 71px;
-    float: left;
-    margin-right: 10px;
-    border: 1px solid #444;
-    text-align: center;
-    padding: 5px;
-    line-height: 9px;
-    border-radius: 5px; }
-    .mapFilters .mapFilter.selected {
-      background-color: #0097A7;
-      color: #fff; }
+  color: #4A4A4A; }
 
 .menu {
   position: absolute;
   height: 100%;
   top: 0;
   left: 0;
-  /*background-color: #fff;*/
-  border-radius: 1%;
-  padding-left: 10%;
-  padding: 0.5% 2%;
-  width: 27%;
-  padding-bottom: 20px; }
+  width: 40%; }
   .menu h3 {
-    font-size: 275%; }
-  .menu svg {
-    margin-top: 20px; }
-  .menu .xLabel {
-    border: 1px solid #ccc;
-    height: 20px;
-    width: 30px;
-    text-align: center;
-    border-radius: 2px;
-    line-height: 20px;
-    font-size: 75%;
-    background-color: #eee; }
-    .menu .xLabel.selected {
-      background-color: #0097A7;
-      color: #fff; }
-  .menu .lineHead {
-    width: 100px; }
-  .menu .filters .head {
-    margin-bottom: 10px; }
-  .menu .filters .filter {
-    float: left;
-    width: 45%;
-    margin-right: 5%;
-    height: 25px; }
-    .menu .filters .filter .labelFilter {
-      float: left;
-      width: 80%;
-      height: 100%;
-      line-height: 25px;
-      font-size: 90%; }
-    .menu .filters .filter .checkbox {
-      float: left;
-      width: 15%;
-      height: 75%;
-      line-height: 25px;
-      margin: 0;
-      border: 1px solid #ccc;
-      margin-right: 5%;
-      margin-top: 3%;
-      background-color: #eee;
-      ight: 25px; }
+    font-size: 225%;
+    font-weight: bold; }
+  .menu .row {
+    margin-bottom: 0;
+    margin-top: 0; }
+    .menu .row .seperator {
+      border-bottom: 1px solid;
+      margin-left: 5%;
+      margin-bottom: 2%;
+      padding: 0;
+      font-size: 110%; }
+  .menu .sliderCont {
+    margin-bottom: 2%; }
+    .menu .sliderCont .slider {
+      height: 20%; }
+  .menu .perspectives {
+    display: none;
+    height: 40px; }
+    .menu .perspectives .perspective {
+      display: none;
+      text-align: center;
+      border: 2px solid #4A4A4A;
+      padding: 5% 0; }
+      .menu .perspectives .perspective.selected {
+        background-color: #4A4A4A;
+        color: #f9f9f9; }
+  .menu .bars {
+    margin-top: 2%; }
+  .menu .statement {
+    font-size: 115%;
+    font-weight: bold;
+    margin-bottom: 0;
+    color: #777; }
+    .menu .statement .areaPart {
+      color: #4CA1AF;
+      font-weight: bold;
+      font-size: 135%; }
+    .menu .statement .timeVal {
+      color: #4A4A4A;
+      font-size: 135%; }
+  .menu .slider .ticks {
+    font: 10px sans-serif; }
+  .menu .slider .track,
+  .menu .slider .track-inset,
+  .menu .slider .track-overlay {
+    stroke-linecap: round; }
+  .menu .slider .track {
+    stroke: url(#gradient);
+    stroke-opacity: 0.3;
+    stroke-width: 10px;
+    fill: none; }
+  .menu .slider .track-inset {
+    stroke-width: 8px;
+    stroke: url(#gradient);
+    fill: none; }
+  .menu .slider .track-overlay {
+    pointer-events: stroke;
+    stroke-width: 50px;
+    stroke: transparent;
+    cursor: crosshair; }
+  .menu .slider .handle {
+    fill: #fff;
+    stroke: #000;
+    stroke-opacity: 0.5;
+    stroke-width: 1.25px; }
+  .menu .bar rect {
+    fill: #ccc; }
+  .menu .bar .barSelected rect {
+    fill: #4A4A4A; }
 
 .outer-cont {
   height: 100%; }

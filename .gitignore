@@ -1,3 +1,4 @@
-tileserver2/node_modules
-tileserver2/node_modules/*
+archive/*
 test
+node_modules
+node_modules/*

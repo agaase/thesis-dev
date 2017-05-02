@@ -4,7 +4,6 @@
 	<title>How is Delhi slowing down?</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="mapbox-gl.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
@@ -16,26 +15,65 @@
       </div>
   </div>
 </div>
-<div class='mapFilters'>
-  <div class='mapFilter selected roads'>Roads</div>
-  <div class='mapFilter landuse'>Landuse</div>
-</div>
-<div class=" menu">
+<div class="menu">
+  <div class="container-fluid">
+  <div class='col-md-12'>
+    <div class='row'>
+    <div class='col-md-12'>
     <h3>How is Delhi Slowing Down?</h3>
-    <svg></svg>
-    <!-- <div class='filters'>
-      <div class='head'>TYPE OF AREA</div>
-      <div class='filter'><div class='checkbox'></div><div class='labelFilter'>Commercial</div></div>
-      <div class='filter'><div class='checkbox'></div><div class='labelFilter'>Residential</div></div>
-      <div class='filter'><div class='checkbox'></div><div class='labelFilter'>School</div></div>
-      <div class='filter'><div class='checkbox'></div><div class='labelFilter'>Railway</div></div>
-      <div class='filter'><div class='checkbox'></div><div class='labelFilter'>Hospital</div></div>
-    </div> -->
+    </div>
+    </div>
+    <div class='row perspectives'>
+      <div class='col-md-10'>
+        <div class='row'>
+        <div class='col-md-3'>
+          <div class='perspective selected'>AREAS</div>
+        </div>
+        <div class='col-md-3'>
+          <div class='perspective'>ROUTES</div>
+        </div>
+        <div class='col-md-3'>
+          <div class='perspective'>CUSTOM</div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class='row statement'>
+      <div class='col-md-10'>
+       Nearly <span class='areaPart'><span class='areaVal'>30%</span> of Delhi</span> is taking atleast <span class='timeVal'>40% longer</span> to commute <span class='dist'></span><span class='day'></span><span class='time'></span>
+      </div>
+    </div>
+    <div class='row sliderCont'>
+      <div class='col-md-9 slider'>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-6 seperator'>
+        MEAN EXCESS TIME
+      </div>
+    </div>
+    <div class='row bars'>
+      <div class='col-md-6 day bar'>
+      </div>
+    </div>
+    <div class='row bars'>
+      <div class='col-md-6 time bar'>
+      </div>
+    </div>
+    <div class='row bars'>
+      <div class='col-md-6 dist bar'>
+      </div>
+    </div>
+  </div>
+  </div>
+    
 </div>
-<script src="https://openlayers.org/en/v4.1.0/build/ol.js"></script>
-<script type="text/javascript" src="js/chroma.min.js"></script>
-<script type="text/javascript" src="js/d3.min.js"></script>
-<script type="text/javascript" src="js/queries.js"></script>
-<script type="text/javascript" src='js/main.js'></script>
+<script src="js/lib/ol.debug.js"></script>
+<script type="text/javascript" src="js/lib/chroma.min.js"></script>
+<script type="text/javascript" src="js/lib/d3.min.js"></script>
+<script type="text/javascript" src="js/lib/slider.js"></script>
+<script type="text/javascript" src='js/data-op.js'></script>
+<script type="text/javascript" src='js/menu.js'></script>
+<script type="text/javascript" src='js/map.js'></script>
 </body>
 </html>

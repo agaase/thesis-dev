@@ -1,90 +1,116 @@
-$main-color: #888;
-$main-font-color: #222;
+$main-color: #4A4A4A;
+$main-font-color: #4A4A4A;
+$selected-font-color: #f9f9f9;
+$bar-color: #ccc;
+$bar-color-selected: #4A4A4A;
 body,html{
     height: 100%;
     color: $main-font-color;
-}
-.mapFilters{
-    display: none;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    .mapFilter{
-        height: 20px;
-        width: 71px;
-        float: left;
-        margin-right: 10px;
-        border: 1px solid #444;
-        text-align: center;
-        padding: 5px;
-        line-height: 9px;
-        border-radius: 5px;
-        &.selected{
-            background-color: #0097A7;
-            color: #fff; 
-        }
-    }
 }
 .menu{
 	position: absolute;
     height: 100%;
     top: 0;
     left: 0;
-    /*background-color: #fff;*/
-    border-radius: 1%;
-    padding-left: 10%;
-    padding: 0.5% 2%;
-    width: 27%;
-    padding-bottom: 20px;
+    width: 40%;
     h3{
-    	font-size: 275%;
+    	font-size: 225%;
+        font-weight: bold;
     }
-    svg{
-        margin-top:20px;
-    }
-    .xLabel{
-        border: 1px solid #ccc;
-        height: 20px;
-        width: 30px;
-        text-align: center;
-        border-radius: 2px;
-        line-height: 20px;
-        font-size: 75%;
-        background-color: #eee;
-        &.selected{
-            background-color: #0097A7;
-            color: #fff;
+    .row{
+        margin-bottom: 0;
+        margin-top: 0;
+        .seperator{
+            border-bottom: 1px solid;
+            margin-left: 5%;
+            margin-bottom: 2%;
+            padding: 0;
+            font-size: 110%;
         }
     }
-    .lineHead{
-        width:100px;
+    .sliderCont{
+        margin-bottom: 2%;
+        .slider{
+            height: 20%;
+        }    
     }
-    .filters{
-        .head{
-            margin-bottom: 10px;
-        }
-        .filter{
-            float: left;
-            width: 45%;
-            margin-right: 5%;
-            height: 25px;
-            .labelFilter{
-                float: left;
-                width: 80%;
-                height: 100%;
-                line-height: 25px;
-                font-size: 90%;
+    .perspectives{
+        display: none;
+        height: 40px;
+        .perspective{
+            display: none;
+            text-align: center;
+            border: 2px solid $main-color;
+            padding: 5% 0;
+            &.selected{
+                background-color: $main-font-color;
+                color: $selected-font-color;
             }
-            .checkbox{
-                float: left;
-                width: 15%;
-                height: 75%;
-                line-height: 25px;
-                margin: 0;
-                border: 1px solid #ccc;
-                margin-right: 5%;
-                margin-top: 3%;
-                background-color: #eee;ight: 25px;
+        }
+    }
+    .bars{
+        margin-top: 2%;
+    }
+   
+    .statement{
+        font-size: 115%;
+        font-weight: bold;
+        margin-bottom: 0;
+        color: #777;
+        .areaPart{
+            color: #4CA1AF;
+            font-weight: bold;
+            font-size: 135%;
+        }
+        .timeVal{
+            color: $main-color;
+            font-size: 135%;
+        }
+    }
+    .slider{
+        .ticks {
+          font: 10px sans-serif;
+        }
+        .track,
+        .track-inset,
+        .track-overlay {
+          stroke-linecap: round;
+        }
+
+        .track {
+          stroke: url(#gradient);
+          stroke-opacity: 0.3;
+          stroke-width: 10px;
+          fill:none;
+        }
+
+        .track-inset {
+          stroke-width: 8px;
+          stroke: url(#gradient);
+          fill:none;
+        }
+
+        .track-overlay {
+          pointer-events: stroke;
+          stroke-width: 50px;
+          stroke: transparent;
+          cursor: crosshair;
+        }
+
+        .handle {
+          fill: #fff;
+          stroke: #000;
+          stroke-opacity: 0.5;
+          stroke-width: 1.25px;
+        }
+    }
+    .bar{
+        rect{
+            fill: $bar-color;
+        }
+        .barSelected{
+            rect{
+                fill: $bar-color-selected;
             }
         }
     }

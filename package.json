@@ -1,0 +1,24 @@
+{
+  "name": "thesis-dev",
+  "version": "1.0.0",
+  "description": "thesis dev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agaase/thesis-dev.git"
+  },
+  "dependencies": {
+    "cors": "2.7.1",
+    "express": "~4.9.x",
+    "request": "^2.81.0"
+  },
+  "author": "agaase",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agaase/thesis-dev/issues"
+  },
+  "homepage": "https://github.com/agaase/thesis-dev#readme"
+}
