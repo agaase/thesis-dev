@@ -10,6 +10,29 @@ var hexGridData={};
 //The public directory where all the static resources are served from
 app.use(express.static('./'));
 
+app.get("/dir/:from/:to",function(request,response){
+  var directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now&traffic_model=pessimistic&key=AIzaSyCos8Xf4NhFMgDtbWnBvmlWOkUYLYEpDt0&mode=driving";
+  console.log(request.params.from+"-"+request.params.to);
+  req({
+    uri : directionsUrl+"&origin="+request.params.from+"&destination="+request.params.to,
+    method : 'GET'
+  },function(err,resp,body){
+    response.send(body);
+  }
+  )
+});
+
+app.get("/places/:keyword",function(request,response){
+  var placesUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyDF3fRoh8fxQpFFIoYtQWEvjzvCW_qh7KQ";
+  console.log(request.params.keyword);
+  req({
+    uri : placesUrl+"&address="+request.params.keyword,
+    method : 'GET'
+  },function(err,resp,body){
+    response.send(body);
+  }
+  )
+});
 
 app.get("/routes/:from/:to",function(request,response){
     // core.fetchItems(function (events) {

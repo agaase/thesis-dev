@@ -1,5 +1,6 @@
 var Map = (function(){
-	var map, clipLayer, tileData, isFeatureSelected, route=[],vectorSource;
+	
+	var map, clipLayer, tileData, isFeatureSelected, route=[[],[]],vectorSource, fromFeature, toFeature, routeFeature;
 	var roadStyleCache = {};
 	var roadColor = {
 	  'major_road': 'rgba(119, 119, 102, 1)',
@@ -8,8 +9,8 @@ var Map = (function(){
 	  'railway': 'rgba(119, 221, 238, 1)'
 	};
 	var colorSc = chroma.scale(['#FFFFF6',"#33DFF4" ,'#37474F']);
-	 var stroke = new ol.style.Stroke({color: 'black', width: 2});
-      var fill = new ol.style.Fill({color: 'red'});
+	var stroke = new ol.style.Stroke({color: 'black', width: 2});
+    var fill = new ol.style.Fill({color: 'red'});
 
 	var roadStyleFunction = function(feature) {
 		var kind = feature.get('kind');
@@ -56,7 +57,7 @@ var Map = (function(){
 	      var st = new ol.style.Style({
 				    stroke: new ol.style.Stroke({
 				      color: '#37474F',
-				      width: 1
+				      width: 2
 				    }),
 				    fill: new ol.style.Fill({
 				      color: "transparent"
@@ -166,7 +167,7 @@ var Map = (function(){
 	           if (mousePosition) {
 	               // only show a circle around the mouse
 	               ctx.arc(mousePosition[0] * pixelRatio, mousePosition[1] * pixelRatio,
-	                   200 * pixelRatio, 0, 2 * Math.PI);
+	                   125 * pixelRatio, 0, 2 * Math.PI);
 	               ctx.lineWidth = 2 * pixelRatio;
 	               ctx.strokeStyle = 'rgba(255,255,255,1)';
 	               ctx.stroke();
@@ -191,7 +192,7 @@ var Map = (function(){
 
 		/**
 		* To animate tiles; not using; too heavy!
-		*/
+		
 		var flash = function(feature){
 			var duration=100;
 			var start = new Date().getTime();
@@ -222,7 +223,7 @@ var Map = (function(){
 		    }
 		    listenerKey = map.on('postcompose', animate);
 		}
-
+		*/
 		var setupLayer = function(){
 			vectorSource = new ol.source.Vector({
 		    }); 
@@ -232,13 +233,12 @@ var Map = (function(){
 		      style: function(feature){
 		      	 var st = styles[feature.getGeometry().getType()];
 				 st.setFill(new ol.style.Fill({
-				    color: colorSc(feature.getProperties().excessTime/(max-100)).hex()
+				    color: colorSc(feature.getProperties().excessTime/(max-120)).hex()
 				 }));
 			     return st;
 		      }
 		    });
 		    tileLayer.on("singleclick",function(ev){
-		    	debugger;
 		    })
 		    map.addLayer(tileLayer);
 		}
@@ -249,15 +249,10 @@ var Map = (function(){
 				if(v.values_.tile_id){
 					setTimeout(function(){
 						vectorSource.removeFeature(v);
-					},parseInt(Math.random()*total))
+					},parseInt((Math.random()*total)))
 				}
 			});
 		}
-
-		var addRoute = function(){
-			
-		}
-
 		var addTiles = function(callback){
 			if(!tileLayer){
 				//remove and add again
@@ -270,6 +265,8 @@ var Map = (function(){
 			max=0;
 			DataOp.fetchTilesAvg(function(data){
 				tilesToShow = data;	
+				totalTiles = Object.keys(tilesToShow).length;
+				var sliderData={};
 				for(var key in tilesToShow){
 					if(tilesToShow[key]>max){
 						max=tilesToShow[key];
@@ -277,11 +274,29 @@ var Map = (function(){
 					if(tilesToShow[key] >= (100+excessTime)){
 						areas++;
 					}
+					var bucket = parseInt(tilesToShow[key]/5)*5;
+					if((bucket-100)>=excessTime){
+						if(!sliderData[bucket]){
+							sliderData[bucket] = 1;
+						}else{
+							sliderData[bucket] += 1;
+						}
+					}
 				}
-		        Slider.init(excessTime,(max-100),function(n){
-		        	updateTiles(n+100);
-		        });
-		        Menu.updateStmt1(areas/totalTiles,excessTime);
+		        if(route[0].length & route[1].length){
+		        	var eT;
+		        	//When there is a route, there is only one record
+		        	for(var key in tilesToShow){
+		        		eT = tilesToShow[key];
+		        	}
+		        	Menu.updateStmt3(eT-100);
+		        }else{
+		        	Menu.updateStmt1(areas/totalTiles,excessTime);	
+		        	//We only need the slider when its not a route
+		        	Slider.init(excessTime,(max-100),sliderData,function(n){
+			        	updateTiles(n+100);
+			        });
+		        }
 		        DataOp.tileData.forEach(function(v,i){
 					var eT = tilesToShow[v.properties.tile_id];
 					if(eT>=(100+excessTime)){
@@ -289,12 +304,11 @@ var Map = (function(){
 						  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
 						  tile_id: v.properties.tile_id,
 						  centroid: v.properties.centroid,
-						  excessTime : eT-(100+excessTime)
+						  excessTime : eT-(120)
 						});
-						// vectorSource.addFeature(feature);
 						setTimeout(function(){
 							vectorSource.addFeature(feature);
-						},parseInt(Math.random()*areas)*2)
+						},parseInt(Math.random()*areas)/3)
 					}
 				});
 		        callback();
@@ -305,27 +319,159 @@ var Map = (function(){
 		* Updating the tile to some new value
 		**/
 		var updateTiles = function(num){
-			excessTime=num;
 			areas =0;
 			for(var key in tilesToShow){
-				if(tilesToShow[key] >= (num)){
+				if(tilesToShow[key] >= num){
 					areas++;
 				}
 			}
+			if(num > excessTime){
+				excessTime = num;
+				vectorSource.getFeatures().forEach(function(v,i){
+					if(v.values_.excessTime<(excessTime-120)){
+						setTimeout(function(){
+							vectorSource.removeFeature(v);
+						},i)
+					}
+				});
+			}else{
+				DataOp.tileData.forEach(function(v,i){
+					var eT = tilesToShow[v.properties.tile_id];
+					if(eT>=num && eT <excessTime){
+						var feature = new ol.Feature({
+						  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
+						  tile_id: v.properties.tile_id,
+						  centroid: v.properties.centroid,
+						  excessTime : eT-120
+						});
+						// vectorSource.addFeature(feature);
+						setTimeout(function(){
+							vectorSource.addFeature(feature);
+						},parseInt(Math.random()*areas)/2)
+					}
+				});
+				excessTime = num;
+			}
 			Menu.updateStmt1(areas/totalTiles,(excessTime-100));
-			vectorSource.getFeatures().forEach(function(v,i){
-				if(v.values_.excessTime<(excessTime-100)){
-					setTimeout(function(){
-						vectorSource.removeFeature(v);
-					},i*2)
-				}
-			});
+
 		}
 		return {
 			addTiles : addTiles,
 			updateTiles : updateTiles
 		}
 	})();
+
+	/** Variation of commute time to one area from other areas **/
+	var renderTo = function(id, centroid){
+		var f = {
+		  "term": {
+		    "tEn": {
+		      "value": id
+		    }
+		  }
+		};
+		Menu.updateFilters("tileEnd",f);
+		isFeatureSelected = true;
+		route[1] = centroid;
+
+		var toFeature = new ol.Feature({
+	      geometry: new ol.geom.Point(centroid).transform( 'EPSG:4326', 'EPSG:3857'),
+	      name: 'Destination'
+	    });
+
+	    toFeature.setStyle(new ol.style.Style({
+	      image: new ol.style.Icon(({
+	        src: '../images/B.png'
+	      }))
+	    }));
+
+		vectorSource.addFeature(toFeature);
+		Menu.render();
+		if(route[0].length){
+			renderRoute();
+		}
+	}
+	var renderRoute = function(){
+		d3.json("http://localhost:8383/dir/"+route[0][1]+","+route[0][0]+"/"+route[1][1]+","+route[1][0],function(resp){
+			debugger;
+			var coords = [];
+			resp.routes[0].legs[0].steps.forEach(function(d,i){
+				coords.push([d.start_location.lng,d.start_location.lat]);
+				coords.push([d.end_location.lng,d.end_location.lat]);
+			});
+			routeFeature = new ol.Feature(new ol.geom.LineString(coords).transform( 'EPSG:4326', 'EPSG:3857'));
+		    routeFeature.setStyle(new ol.style.Style({
+		      stroke: new ol.style.Stroke({
+		        color: '#333',
+		        width: 3
+		      })
+		    }));
+			vectorSource.addFeature(routeFeature);
+			Menu.updateStmt2("dir","between area A and B");
+		});
+	}
+
+	var revertRoute = function(type){
+		if(type=="from"){
+			vectorSource.removeFeature(fromFeature);
+			route[0] = [];
+			
+		}else if(type=="to"){
+			vectorSource.removeFeature(toFeature);
+			route[1] = [];
+		}
+		try{
+			vectorSource.removeFeature(routeFeature);	
+		}
+		catch(err){
+			//Doing it redundantly;
+		}
+		Menu.render();
+		if(!route[0].length && !route[1].length){
+			d3.select(".atob").classed("active",false);
+		}
+	}
+
+	/** Variation of commute time from one area to other areas **/	
+	var renderFrom = function(id, centroid){
+		var f = {
+		  "term": {
+		    "tFr": {
+		      "value": id
+		    }
+		  }
+		};
+		Menu.updateFilters("tileFrom",f);
+		isFeatureSelected = true;
+		route[0] = centroid;
+		fromFeature = new ol.Feature({
+	      geometry: new ol.geom.Point(centroid).transform( 'EPSG:4326', 'EPSG:3857'),
+	      name: 'Origin'
+	    });
+
+	    fromFeature.setStyle(new ol.style.Style({
+	      image: new ol.style.Icon(({
+	        src: '../images/A.png'
+	      }))
+	    }));
+
+		// fromFeature = new ol.Feature(new ol.geom.Point(centroid).transform( 'EPSG:4326', 'EPSG:3857'));
+		// fromFeature.setStyle(new ol.style.Style({
+		// 			          image: new ol.style.RegularShape({
+		// 			            fill: fill,
+		// 			            stroke: stroke,
+		// 			            points: 4,
+		// 			            radius: 10,
+		// 			            radius2: 0,
+		// 			            angle: 0
+		// 			          })
+		// 			        }));
+		vectorSource.addFeature(fromFeature);
+		Menu.render();
+		if(route[1].length){
+			renderRoute();
+		}
+	}
 
 	var init = function(){
 		map = new ol.Map({
@@ -347,8 +493,10 @@ var Map = (function(){
 	        })
 	      }),
 	      view: new ol.View({
-	        center: ol.proj.fromLonLat([77.050619,28.623776]),
-	        zoom: 11.3
+	        center: ol.proj.fromLonLat([77.120619,28.623776]),
+	        zoom: 11.3,
+	        minZoom : 11,
+	        maxZoom : 14
 	      })
 	    });
 	    map.on('singleclick', function(evt) {   
@@ -358,67 +506,27 @@ var Map = (function(){
 		     if(feature.values_.tile_id && ids.indexOf(feature.values_.tile_id)==-1){
 		     	ids.push(feature.values_.tile_id);
 		     	if(isFeatureSelected){
-		     		var f = {
-				       "term": {
-				         "tFr": {
-				           "value": feature.values_.tile_id
-				         }
-				       }
-				     };
-				     Menu.updateFilters("tileEnd",f);
-				     route[1] = feature.values_.centroid;
-				     var feature = new ol.Feature(new ol.geom.LineString(route).transform( 'EPSG:4326', 'EPSG:3857'));
-				     feature.setStyle(new ol.style.Style({
-				       stroke: new ol.style.Stroke({
-				         color: '#4CA1AF',
-				         width: 1
-				       })
-				     }));
-					 vectorSource.addFeature(feature);
+		     		renderTo(feature.values_.tile_id,feature.values_.centroid);
+		     		Menu.updateInput(feature.values_.centroid,"to");
 		     	}else{
-		     		var f = {
-				       "term": {
-				         "tEn": {
-				           "value": feature.values_.tile_id
-				         }
-				       }
-				     };
-				     Menu.updateFilters("tileFrom",f);
-				     isFeatureSelected = true;
-				     route[0] = feature.values_.centroid;
-				     var feature = new ol.Feature(new ol.geom.Point(feature.values_.centroid).transform( 'EPSG:4326', 'EPSG:3857'));
-				     feature.setStyle(new ol.style.Style({
-								          image: new ol.style.RegularShape({
-								            fill: fill,
-								            stroke: stroke,
-								            points: 4,
-								            radius: 10,
-								            radius2: 0,
-								            angle: 0
-								          })
-								        }));
-					 vectorSource.addFeature(feature);
+		     		renderFrom(feature.values_.tile_id,feature.values_.centroid);
+		     		Menu.updateInput(feature.values_.centroid,"from");
 		     	}
-		     	Menu.render();
 		     }
 		   });                                                         
 		});   
         map.addLayer(BoundaryLayer);
         map.addLayer(BaseHexGridLayer);
-        
 	}
 	return {
 		init : init,
+		revertRoute : revertRoute,
 		renderTileLayer : function(){
 			TileLayer.addTiles(function(){
-			 	// ClipLayer.createClipLayer("landuse");
+			 	ClipLayer.createClipLayer("landuse");
 			})
 		},
-		renderRouteLayer : function(dat){
-			DataOp.fetchRoutes(function(routes,geojson){
-				TileLayer.addRoutes(geojson);
-				ClipLayer.createClipLayer("roads");
-			})
-		}
+		renderFrom : renderFrom,
+		renderTo : renderTo
 	}
 })();

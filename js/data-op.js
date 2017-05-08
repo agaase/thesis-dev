@@ -32,9 +32,33 @@ var DataOp = (function(){
 		});
 	}
 
+	var findTileHavingCoordinate = function(coord){
+		var coord = coord;
+		coord[0] = parseFloat(coord[0]);
+		coord[1] = parseFloat(coord[1]);
+		var f;
+		this.tileData.forEach(function(v,i){
+			var poly = turf.polygon(v.geometry.coordinates);
+			var pt = turf.point(coord);
+			if(turf.inside(pt,poly)){
+				f=v;
+			}
+		});
+		return f;
+	}
+
 	var updateWithFilters = function(barName){
-		var qu = JSON.parse(JSON.stringify(queries[barName]))
 		var filters = Menu.getFilters();
+		var qu = JSON.parse(JSON.stringify(queries[barName]));
+		if(barName == "tilesAvg"){
+			if(filters["tileEnd"]){
+				//When we want to know the commute time variation to a location from different areas.
+				qu["aggs"]["tiles"]["terms"]["field"] = "tFr";
+			}else if(filters["tileFrom"]){
+				//When we want to know the commute time variation from a location to different areas.
+				qu["aggs"]["tiles"]["terms"]["field"] = "tEn";
+			}
+		}
 		if(Object.keys(filters).length){
 			qu["query"]["bool"]["must"] = [];
 			for(var key in filters){
@@ -128,7 +152,8 @@ var DataOp = (function(){
 		fetchBarData : fetchBarData,
 		fetchRoutes : fetchRoutes,
 		config : config,
-		tileData : tileData
+		tileData : tileData,
+		findTileHavingCoordinate : findTileHavingCoordinate
 	}
 
 })();

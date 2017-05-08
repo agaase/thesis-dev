@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>How is Delhi slowing down?</title>
+	<title>How is Delhi Slowing Down?</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Open+Sans" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
@@ -15,65 +16,98 @@
       </div>
   </div>
 </div>
-<div class="menu">
+<div class="menu inactive">
   <div class="container-fluid">
   <div class='col-md-12'>
-    <div class='row'>
+    
+    <div class='row heading'>
     <div class='col-md-12'>
     <h3>How is Delhi Slowing Down?</h3>
     </div>
     </div>
-    <div class='row perspectives'>
-      <div class='col-md-10'>
-        <div class='row'>
-        <div class='col-md-3'>
-          <div class='perspective selected'>AREAS</div>
-        </div>
-        <div class='col-md-3'>
-          <div class='perspective'>ROUTES</div>
-        </div>
-        <div class='col-md-3'>
-          <div class='perspective'>CUSTOM</div>
-        </div>
-        </div>
-      </div>
-    </div>
+    
+
     <div class='row statement'>
       <div class='col-md-10'>
-       Nearly <span class='areaPart'><span class='areaVal'>30%</span> of Delhi</span> is taking atleast <span class='timeVal'>40% longer</span> to commute <span class='dist'></span><span class='day'></span><span class='time'></span>
+       <div class='stmt2'>
+       To commute  <span class='dist'>less than 35kms</span>&nbsp;<span class='dir'></span>&nbsp;<span class='day'></span>&nbsp;<span class='time'></span>
+       </div>
+       <div class='stmt1'>
+       Nearly <span class='areaPart'><span class='areaVal'>30%</span> of areas</span> are taking atleast <span class='timeVal'>40% longer</span> 
+       </div>
+       <div class='stmt3 hidden'>
+       It takes on average<span class='timeVal'>40% longer</span> 
+       </div>
+       <div class='stmt4'>
+        Visualizing the extent of congestion on roads of Delhi, the capital city of India.
+       </div>
+      </div>
+    </div>
+    <div class='row initBtns'>
+      <div class='initial'>
+        <div class='col-md-4 explore'>
+        EXPLORE
+        </div>
+        <div class='col-md-4 interact'>
+        INTERACT
+        </div>
+        <div class='storyline col-md-8'>
+          <div class='btn'>1</div>
+          <div class='btn'>2</div>
+          <div class='btn'>3</div>
+          <div class='btn'>4</div>
+        </div>
+      </div>
+
+    </div>
+    <div class='row atob'>
+      <div class='col-md-6'>
+      <div class='results from'></div>
+      <input class="from" type='text' placeholder="Origin" />
+      <div class='closeBtn from'></div>
+      </div>
+      <div class='col-md-6'>
+      <div class='results to'></div>
+      <input class="to" type='text' placeholder="Destination" />
+      <div class='closeBtn to'></div>
       </div>
     </div>
     <div class='row sliderCont'>
       <div class='col-md-9 slider'>
       </div>
     </div>
-    <div class='row'>
-      <div class='col-md-6 seperator'>
-        MEAN EXCESS TIME
-      </div>
-    </div>
-    <div class='row bars'>
-      <div class='col-md-6 day bar'>
-      </div>
-    </div>
-    <div class='row bars'>
-      <div class='col-md-6 time bar'>
-      </div>
-    </div>
-    <div class='row bars'>
-      <div class='col-md-6 dist bar'>
-      </div>
-    </div>
   </div>
+</div>
+</div>
+<div class='bars inactive'>
+  <div class="container-fluid">
+      <div class='row'>
+        <div class='col-md-11 seperator'>
+          Mean Excess Time
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-11 day bar'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-11 time bar'>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-11 dist bar'>
+        </div>
+      </div>
   </div>
-    
 </div>
 <script src="js/lib/ol.debug.js"></script>
-<script type="text/javascript" src="js/lib/chroma.min.js"></script>
-<script type="text/javascript" src="js/lib/d3.min.js"></script>
-<script type="text/javascript" src="js/lib/slider.js"></script>
-<script type="text/javascript" src='js/data-op.js'></script>
-<script type="text/javascript" src='js/menu.js'></script>
-<script type="text/javascript" src='js/map.js'></script>
+<script src="js/lib/chroma.min.js"></script>
+<script src="js/lib/d3.min.js"></script>
+<script src="js/lib/slider.js"></script>
+<script src='js/lib/turf.min.js'></script>
+<script src='js/data-op.js'></script>
+<script src='js/menu.js'></script>
+<script src='js/map.js'></script>
+<script src='js/main.js'></script>
 </body>
 </html>

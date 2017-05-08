@@ -1,70 +1,260 @@
-$main-color: #4A4A4A;
-$main-font-color: #4A4A4A;
-$selected-font-color: #f9f9f9;
-$bar-color: #ccc;
-$bar-color-selected: #4A4A4A;
+$main-color: #37474F;
+$main-font-color: #37474F;
+$secondary-font-color: #607D8B;
+$bar-color: $main-color;
+$reverse-font-color: #ECEFF1;
+$hex-grid-color: #00BCD4;
+$bar-color-selected: $hex-grid-color;
+
+
 body,html{
     height: 100%;
     color: $main-font-color;
+    font-family: 'Open Sans', sans-serif;
+}
+.ol-overlaycontainer-stopevent{
+    display: none;   
+}
+text{
+    fill: $main-font-color;
 }
 .menu{
 	position: absolute;
     height: 100%;
     top: 0;
     left: 0;
-    width: 40%;
+    width: 30%;
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) , rgba(255,255,255,0));
+    &.inactive{
+        .atob,.sliderCont{
+            display: none;
+        }
+        .initBtns{
+            .explore,.interact{
+                display: block;
+            }
+        }
+        .statement{
+            .stmt4{
+                display: block;
+            }
+            .stmt1,.stmt2,.stmt3{
+                display: none;
+            }
+        }
+    }
+    &.explore{
+        .atob,.sliderCont{
+            display: none;
+        }
+        .statement{
+            .stmt4{
+                display: block;
+            }    
+            .stmt1,.stmt2,.stmt3{
+                display: none;
+            }
+        }
+        
+        .initBtns{
+            .explore,.interact{
+                display: none;
+            }
+            .storyline{
+                display: block;
+            }
+        }
+    }
+    .initBtns{
+        .explore,.interact{
+            display: none;
+            height: 25px;
+            background-color: transparent;
+            border: 2px solid $main-color;
+            line-height: 25px;
+            text-align: center;
+            line-height: 150%;
+            cursor: pointer;
+        }
+        .storyline{
+            display: none;
+            padding: 0;
+            .btn{
+                border: 1px solid;
+                padding: 4px 10px;
+                &.active{
+                    border: 2.5px solid $hex-grid-color;
+                    color: $hex-grid-color;
+                }
+            }
+        }
+        .explore{
+            margin-right: 5%;
+        }
+    }
+    .heading{
+        > div{
+            padding: 0;
+        }
+    }
+    >div{
+        height: 100%;
+        >div{
+            height: 100%;
+        }
+    }
     h3{
-    	font-size: 225%;
+    	font-size: 185%;
         font-weight: bold;
+        font-family: 'Libre Baskerville', serif;
     }
     .row{
         margin-bottom: 0;
         margin-top: 0;
-        .seperator{
-            border-bottom: 1px solid;
-            margin-left: 5%;
-            margin-bottom: 2%;
-            padding: 0;
-            font-size: 110%;
+    }
+    .atob{
+        min-height: 40px;
+        position: absolute;
+        width: 80%;
+        bottom: 2%;
+        background-image: url("../images/search.png");
+        background-repeat: no-repeat;
+        background-position: left;
+        background-size: 9% auto;
+        cursor: pointer;
+        > div {
+            height: 100%;
+            padding: 0 1%;
+            display: inline-block;
+            float: inherit;
+            width: 49%;
+            input{
+                display: none;
+                height: 40px;
+                width: 85%;
+                border: 0;
+                background-position: left;
+                background-size: 20%;
+                background-color: transparent;
+                background-repeat: no-repeat;
+                padding-left: 22%;
+                cursor: pointer;
+                &.from{
+                    background-image: url("../images/A.png");
+                    &:hover{
+                        background-image: url("../images/input_a_active.png");
+                        color: $hex-grid-color;
+                    };
+                    &.active{
+                        background-image: url("../images/input_a_active.png");
+                    }
+                }
+                &.to{
+                    background-image: url("../images/B.png");
+                    &:hover{
+                        background-image: url("../images/input_b_active.png");
+                        color: $hex-grid-color;
+                    };
+                    &.active{
+                        background-image: url("../images/input_b_active.png");
+                    }
+                }
+                &.active{
+                    color: $hex-grid-color;
+                    font-weight: bold;
+                    font-size: 120%;
+                }
+            }
+            .results{
+                display: none;
+                .result{
+                    margin-bottom: 2%;
+                    border-bottom: 1px solid #ccc;
+                }
+                &.active{
+                    display: block;
+                }
+            }
+            .closeBtn{
+                display: none;
+                width: 12%;
+                height: 40px;
+                vertical-align: bottom;
+                background-image: url(../images/close.png);
+                background-position: center;
+                background-size: 99%;
+                background-repeat: no-repeat;
+            }
+        }
+        &.active{
+            background-image: none;
+            > div{
+                input{
+                    display: inline-block;
+                } 
+                .closeBtn{
+                    &.active{
+                        display: inline-block;
+                    }
+                }   
+            }
         }
     }
     .sliderCont{
         margin-bottom: 2%;
         .slider{
             height: 20%;
-        }    
-    }
-    .perspectives{
-        display: none;
-        height: 40px;
-        .perspective{
-            display: none;
-            text-align: center;
-            border: 2px solid $main-color;
-            padding: 5% 0;
-            &.selected{
-                background-color: $main-font-color;
-                color: $selected-font-color;
-            }
         }
+        &.hidden{
+            display: none;
+        }  
     }
-    .bars{
-        margin-top: 2%;
-    }
-   
+
     .statement{
         font-size: 115%;
         font-weight: bold;
-        margin-bottom: 0;
-        color: #777;
+        margin-bottom: 5%;
+        margin-top: 5%;
+        > div{
+            padding: 0;
+        }
+        .stmt1{
+            line-height: 225%;
+            &.hidden{
+                display: none;
+            }
+        }
+        .stmt2{
+            margin-bottom: 6%;
+        }
+        .stmt3{
+            &.hidden{
+                display: none;
+            }
+        }
+        .stmt4{
+            display: none;
+            min-height: 100px;
+            font-size: 115%;
+            color: $hex-grid-color;
+        }
+        span{
+        }
         .areaPart{
-            color: #4CA1AF;
+            border-bottom: 2px solid $hex-grid-color;
             font-weight: bold;
-            font-size: 135%;
+            font-size: 125%;
+            color: $hex-grid-color;
+            padding: 0 1.5%;
+            border-radius: 5%;
+            margin-bottom: 5%;
         }
         .timeVal{
+            border-bottom: 2px solid $main-color;
+            border-radius: 5%;
+            font-size: 125%;
             color: $main-color;
-            font-size: 135%;
+            padding: 0 1.5%;
         }
     }
     .slider{
@@ -94,7 +284,7 @@ body,html{
           pointer-events: stroke;
           stroke-width: 50px;
           stroke: transparent;
-          cursor: crosshair;
+          cursor: pointer;
         }
 
         .handle {
@@ -103,6 +293,27 @@ body,html{
           stroke-opacity: 0.5;
           stroke-width: 1.25px;
         }
+    }
+    
+}
+.bars{
+    &.inactive{
+        display: none;
+    }
+    &.explore{
+        display: none;
+    }
+    width: 17%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: -webkit-linear-gradient(right, rgba(255,255,255,1) , rgba(255,255,255,0));
+    .seperator{
+        margin-bottom: 2%;
+        font-size: 120%;
+        margin-top: 2%;
+        padding-top: 15px;
     }
     .bar{
         rect{

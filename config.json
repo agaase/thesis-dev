@@ -22,7 +22,13 @@
 			"4" : "Thu",
 			"5" : "Fri",
 			"6" : "Sat",
-			"7" : "Sun"
+			"0" : "Sun"
 		}
+	},
+	"colors" : {
+		"mainColor" : "#37474F"
+	},
+	"codeParams" : {
+		"cutoffExcessTime" : 75
 	}
 }
