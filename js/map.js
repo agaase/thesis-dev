@@ -366,7 +366,7 @@ var Map = (function(){
 		}
 	}
 	var renderRoute = function(){
-		d3.json("http://localhost:8383/dir/"+route[0][1]+","+route[0][0]+"/"+route[1][1]+","+route[1][0],function(resp){
+		d3.json(DataOp.config.localUrl+":8383/dir/"+route[0][1]+","+route[0][0]+"/"+route[1][1]+","+route[1][0],function(resp){
 			debugger;
 			var coords = [];
 			resp.routes[0].legs[0].steps.forEach(function(d,i){
