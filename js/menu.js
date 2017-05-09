@@ -2,7 +2,7 @@
 	var defaultColor = "#cccccc", filters={};
 	var renderBarData = function(barName,domain,filterFunction){
 		var bbox = d3.select("."+barName+".bar").node().getBoundingClientRect();
-		var width = bbox.width, height = bbox.height, marginLeft=40, marginRight=20, marginTop=25;
+		var width = bbox.width, height = bbox.height, marginLeft=60, marginRight=20, marginTop=25;
 		// d3.select("."+barName+".bar svg").remove();
 		var scale = d3.scaleLinear()
 							   .domain(domain)
@@ -26,7 +26,11 @@
 									  .attr("x",marginLeft)
 									  .attr("y",marginTop+i*25)
 									  .attr("height",15)
+									  .classed("tooptipElement",true)
+									  .on("mouseover",tooltipMouseoverHandler)
+									  .on("mouseout",tooltipMouseoutHandler)
 									  .attr("width",0)
+									  .attr("data-tooltip","Mean excess time:"+parseInt(d.value))
 									  .transition()
 									  .duration(500)
 									  .attr("width",scale(d.value))
@@ -53,7 +57,8 @@
 						      updateStmt2(barName,DataOp.config["keyMap"][barName][keyVal.join("-")]);
 						      Menu.render();
 					      }
-				});
+					});
+					
 				svgBar.append("line")
 					  .attr("x1",width-marginRight)
 					  .attr("y1",marginTop/2)
@@ -64,10 +69,11 @@
 					  .attr("stroke-dasharray","4, 4")
 				if(barName =="day"){
 					svgBar.append("text")
-					  .attr("x",width-marginRight*2)
+					  .attr("x",width-marginRight)
+					  .attr("text-anchor","middle")
 					  .attr("y",marginTop/2)
+					  .classed("barCutoff",true)
 					  .text(DataOp.config.codeParams.cutoffExcessTime+"%")
-					  .style("fill","#F44336")
 				}
 
 			}else{
@@ -76,6 +82,7 @@
 					  .data(data)
 					  .each(function(d,i){
 					  	d3.select(this)
+					  	  .attr("data-tooltip","Mean excess time:"+parseInt(d.value))
 					  	  .transition()
 					  	  .duration(500)
 					  	  .attr("width",scale(d.value))
@@ -93,7 +100,16 @@
 		if(type == "time"){
 			d3.select(".statement ."+type).html(val ? "between "+val : "");	
 		}else if(type=="day"){
-			d3.select(".statement ."+type).html(val ? "on "+val : "");
+			var mapping = {
+				"Mon" : "Monday",
+				"Tue" : "Tuesday",
+				"Wed" : "Wednesday",
+				"Thu" : "Thursday",
+				"Fri" : "Friday",
+				"Sat" : "Saturday",
+				"Sun" : "Sunday"
+			}
+			d3.select(".statement ."+type).html(val ? "on "+mapping[val] : "");
 		}else if(type=="dist"){
 			var text;
 			if(!val){
@@ -102,11 +118,11 @@
 				text = "a distance of ";
 				val = val.split("-");
 				if(val[0] == "*"){
-					text += "upto " + val[1]+"kms";
-				}else if(val[1] == "*"){
+					text += "upto " + val[1];
+				}else if(val[1] == "*kms"){
 					text += "more than " + val[0]+"kms";
 				}else{
-					text += val[0]+" to "+val[1]+"kms";
+					text += val[0]+" to "+val[1];
 				}
 			}
 			d3.select(".statement ."+type).html(text);	
@@ -129,6 +145,41 @@
 		updateStmt2("dir",type + " " + (type=="from" ? "area A" : "area B"));
 	}
 
+	var tooltipMouseoverHandler = function(){
+		d3.select(".tooltipCont")
+			.style("top",event.clientY+"px")
+			.style("left",event.clientX+"px")
+			.classed("visible",true)
+			.html(d3.select(event.target).attr("data-tooltip"));
+	}
+	var tooltipMouseoutHandler = function(){
+		d3.select(".tooltipCont")
+			.classed("visible",false);
+	}
+
+	var routeRender = function(){
+		d3.select(".dist.bar").classed("hidden",true);
+		Menu.updateStmt2("dir","between area A and B");
+		d3.select(".stmt2 .dist").classed("hidden",true)
+	}
+	var clearFrom = function(isToPresent){
+		delete filters["tileFrom"];
+		d3.select("input.from").node().value = "";
+		d3.select("input.from").classed("active",false);
+		updateStmt2("dir",isToPresent ? "to B": "");
+		d3.select(".dist.bar").classed("hidden",false);
+		d3.select(".stmt2 .dist").classed("hidden",false)
+	}
+
+	var clearTo = function(isFromPresent){
+		delete filters["tileEnd"];
+		d3.select("input.to").node().value = "";
+		d3.select("input.to").classed("active",false);
+		updateStmt2("dir",isFromPresent ? "from A" : "");
+		d3.select(".dist.bar").classed("hidden",false);
+		d3.select(".stmt2 .dist").classed("hidden",false)
+	}
+
 	var events = function(){
 		d3.select(".atob").on("click",function(){
 			d3.select(this).classed("active",true);
@@ -136,14 +187,10 @@
 		d3.selectAll(".closeBtn")
 		.on("click",function(){
 			if(d3.select(this).classed("from")){
-				delete filters["tileFrom"];
-				d3.select("input.from").node().value = "";
-				d3.select("input.from").classed("active",false);
+				clearFrom(d3.select("input.to").classed("active"));
 				Map.revertRoute("from");
 			}else{
-				delete filters["tileEnd"];
-				d3.select("input.to").node().value = "";
-				d3.select("input.to").classed("active",false);
+				clearTo(d3.select("input.from").classed("active"));
 				Map.revertRoute("to");
 			}
 			d3.select(this).classed("active",false);
@@ -171,7 +218,7 @@
 							});
 							if(validResult){
 								ele.append("div")
-								   .attr("class","result")
+								   .attr("class","result valid")
 								   .attr("coord",v.geometry.location.lng+","+v.geometry.location.lat)
 								   .html(v.formatted_address);
 							}
@@ -185,7 +232,7 @@
 						},5000);
 					}
 					ele.classed("active",true);
-					d3.selectAll(".result",ele).on("click",function(){
+					d3.selectAll(".result.valid",ele).on("click",function(){
 						updateInput(d3.select(this).html(),ele.classed("from") ? "from" : "to")
 						ele.classed("active",false);
 						var coord = d3.select(this).attr("coord").split(",");
@@ -195,11 +242,20 @@
 						}else{
 							Map.renderTo(feature.properties.tile_id,feature.properties.centroid);	
 						}
-						
 					})
 				})
 			}
 		})
+
+		d3.selectAll(".lens").on("click",function(){
+			d3.selectAll(".lens").classed("active",false);
+			var layer = d3.select(this).attr("data-layer");
+			d3.select(this).classed("active",true);
+			Map.clipLayer(layer);
+		})
+		.on("mouseover",tooltipMouseoverHandler)
+		.on("mouseout",tooltipMouseoutHandler)
+
 	}
 
 	return {
@@ -214,18 +270,19 @@
 		resetFilters : function(){
 			filters = {};
 		},
+		clearFrom : clearFrom,
+		clearTo : clearTo,
 		updateStmt1 : updateStmt1,
 		updateStmt2 : updateStmt2,
 		updateStmt3 : updateStmt3,
+		routeRender : routeRender,
 		init : function(){
-			DataOp.setup(function(){
-				this.render();
-				this.events();
+			this.render(function(){
+				this.events();	
 			}.bind(this));
 		},
-		render : function(){
-			Map.renderTileLayer();
-			// Map.renderRouteLayer();
+		render : function(callback){
+			Map.renderTileLayer(callback);
 			renderBarData("day",[100,(100+DataOp.config.codeParams.cutoffExcessTime)],function(keyVal){
 				var filter = {
 				  "term": {

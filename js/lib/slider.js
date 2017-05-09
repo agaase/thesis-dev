@@ -43,7 +43,7 @@ var Slider =(function(){
         "val" : sliderData[bucket]
       })
     }
-    bucketScale = d3.scaleLinear().domain([parseInt(sliderDataArray[0].bucket),parseInt(sliderDataArray[sliderDataArray.length-1].bucket)]).range([0,1]);
+    bucketScale = d3.scaleLinear().domain([100+DataOp.config.codeParams.minExcessTime,100+DataOp.config.codeParams.cutoffExcessTime]).range([0,1]);
 
     var max = d3.max(sliderDataArray,function(d){return d.val});
     var scaleY = d3.scaleLinear().domain([0,max]).range([0,h-20]);
@@ -70,7 +70,7 @@ var Slider =(function(){
           return colorSc(bucketScale(parseInt(d.bucket))).hex();
        })
        .style("stroke",function(d){
-          return "#607D8B";
+          return "#ddd";
        })
        .style("stroke-width",function(d){
           return "1px";

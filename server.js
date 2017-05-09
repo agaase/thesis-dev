@@ -11,7 +11,7 @@ var hexGridData={};
 app.use(express.static('./'));
 
 app.get("/dir/:from/:to",function(request,response){
-  var directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now&traffic_model=pessimistic&key=AIzaSyCos8Xf4NhFMgDtbWnBvmlWOkUYLYEpDt0&mode=driving";
+  var directionsUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now&traffic_model=pessimistic&key=AIzaSyCHqZ-WXhO2VHhLsEyST7TF3XU0hFm2xRA&mode=driving";
   console.log(request.params.from+"-"+request.params.to);
   req({
     uri : directionsUrl+"&origin="+request.params.from+"&destination="+request.params.to,

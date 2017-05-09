@@ -1,13 +1,13 @@
 body, html {
   height: 100%;
-  color: #37474F;
+  color: #757575;
   font-family: 'Open Sans', sans-serif; }
 
 .ol-overlaycontainer-stopevent {
   display: none; }
 
 text {
-  fill: #37474F; }
+  fill: #757575; }
 
 .menu {
   position: absolute;
@@ -30,15 +30,18 @@ text {
     display: block; }
   .menu.explore .statement .stmt1, .menu.explore .statement .stmt2, .menu.explore .statement .stmt3 {
     display: none; }
-  .menu.explore .initBtns .explore, .menu.explore .initBtns .interact {
+  .menu.explore .initBtns .explore {
     display: none; }
+  .menu.explore .initBtns .interact {
+    display: block;
+    margin-top: 20%; }
   .menu.explore .initBtns .storyline {
     display: block; }
   .menu .initBtns .explore, .menu .initBtns .interact {
     display: none;
     height: 25px;
     background-color: transparent;
-    border: 2px solid #37474F;
+    border: 2px solid #757575;
     line-height: 25px;
     text-align: center;
     line-height: 150%;
@@ -153,26 +156,28 @@ text {
         display: none; }
     .menu .statement .stmt2 {
       margin-bottom: 6%; }
+      .menu .statement .stmt2 .dist.hidden {
+        display: none; }
     .menu .statement .stmt3.hidden {
       display: none; }
     .menu .statement .stmt4 {
       display: none;
       min-height: 100px;
-      font-size: 115%;
+      font-size: 125%;
       color: #00BCD4; }
     .menu .statement .areaPart {
       border-bottom: 2px solid #00BCD4;
       font-weight: bold;
-      font-size: 125%;
+      font-size: 105%;
       color: #00BCD4;
       padding: 0 1.5%;
       border-radius: 5%;
       margin-bottom: 5%; }
     .menu .statement .timeVal {
-      border-bottom: 2px solid #37474F;
+      border-bottom: 2px solid #00BCD4;
       border-radius: 5%;
-      font-size: 125%;
-      color: #37474F;
+      font-size: 105%;
+      color: #00BCD4;
       padding: 0 1.5%; }
   .menu .slider .ticks {
     font: 10px sans-serif; }
@@ -204,8 +209,8 @@ text {
   width: 17%;
   position: absolute;
   right: 0;
-  top: 0;
-  height: 100%;
+  top: 10px;
+  height: 85%;
   background: -webkit-linear-gradient(right, white, rgba(255, 255, 255, 0)); }
   .bars.inactive {
     display: none; }
@@ -216,10 +221,51 @@ text {
     font-size: 120%;
     margin-top: 2%;
     padding-top: 15px; }
-  .bars .bar rect {
-    fill: #37474F; }
-  .bars .bar .barSelected rect {
-    fill: #00BCD4; }
+  .bars .bar {
+    cursor: pointer; }
+    .bars .bar.hidden {
+      display: none; }
+    .bars .bar rect {
+      fill: #757575; }
+    .bars .bar .barSelected rect {
+      fill: #00BCD4; }
+    .bars .bar text {
+      font-size: 80%; }
+    .bars .bar .barCutoff {
+      fill: #00BCD4; }
+
+.lenses {
+  width: 15%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 15%;
+  padding-left: 2%;
+  background: -webkit-linear-gradient(right, white, rgba(255, 255, 255, 0)); }
+  .lenses.inactive {
+    display: none; }
+  .lenses.explore {
+    display: block; }
+  .lenses > div {
+    height: 100%; }
+    .lenses > div .lens {
+      margin: 5px;
+      height: 50px;
+      width: 50px;
+      margin-top: 12.5%;
+      border-radius: 50%;
+      background-size: 100%;
+      background-position: center;
+      border: 4px solid #757575;
+      cursor: pointer; }
+      .lenses > div .lens.active {
+        border: 5px solid #00BCD4; }
+      .lenses > div .lens.gen {
+        background-image: url("../images/gen_layer.png"); }
+      .lenses > div .lens.roads {
+        background-image: url("../images/roads_layer.png"); }
+      .lenses > div .lens.landuse {
+        background-image: url("../images/landuse_layer.png"); }
 
 .outer-cont {
   height: 100%; }
@@ -228,5 +274,18 @@ text {
     .outer-cont .inner-cont #map {
       height: 100%;
       padding: 0; }
+
+.tooltipCont {
+  display: none;
+  position: absolute;
+  min-width: 10vh;
+  background-color: #f9f9f9;
+  top: 0;
+  padding: 5px;
+  border: 2px solid #757575;
+  border-radius: 5px;
+  text-align: center; }
+  .tooltipCont.visible {
+    display: block; }
 
 /*# sourceMappingURL=main.css.map */

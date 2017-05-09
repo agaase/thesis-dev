@@ -20,13 +20,13 @@ var Map = (function(){
 		var style = roadStyleCache[styleKey];
 		if (!style) {
 		  var color, width;
-		  color = roadColor[kind] || "rgba(0,0,0,1)";
-		  width = kind == 'highway' ? 2 : 1;
+		  var confObj = DataOp.config.layers.roads[kind] || {};
+		  color = confObj.color || "rgba(0,0,0,0)";
+		  width = confObj.width || 0;
 		  style = new ol.style.Style({
 		    stroke: new ol.style.Stroke({
 		      color: color,
-		      width: width,
-		      opacity: 1
+		      width: width
 		    }),
 		    zIndex: sort_key
 		  });
@@ -56,7 +56,7 @@ var Map = (function(){
 	    var styleFunction = function(feature) {
 	      var st = new ol.style.Style({
 				    stroke: new ol.style.Stroke({
-				      color: '#37474F',
+				      color: '#757575',
 				      width: 2
 				    }),
 				    fill: new ol.style.Fill({
@@ -129,28 +129,29 @@ var Map = (function(){
 	   
 		/**Creates the layer to the see the underlying map
 		**/
-    	var createClipLayer = function(layer,opacity){
+    	var createClipLayer = function(layer){
     		if(clipLayer){
     			map.removeLayer(clipLayer);
     		}
-    		if(layer=="roads"){
-    			styleF = roadStyleFunction
+    		if(layer=="roads" || layer == "landuse"){
+    			clipLayer = new ol.layer.VectorTile({
+				    source: new ol.source.VectorTile({
+				      format: new ol.format.TopoJSON(),
+				      tileGrid: ol.tilegrid.createXYZ({maxZoom: 19}),
+				      url: 'https://tile.mapzen.com/mapzen/vector/v1/'+layer+'/{z}/{x}/{y}.topojson?api_key=odes-9thVtDE'
+				    }),
+				    style: layer=="roads" ? roadStyleFunction : landuseFunction,
+				    opacity : layer == "roads" ? 1 : 0.7
+				});
+    		}else if(layer == "gen"){
+    			clipLayer = new ol.layer.Tile({
+		            source: new ol.source.OSM(),
+		            opacity : 0.7
+		        });
     		}else{
-    			styleF = landuseFunction
+    			console.log("clip layer not valid please check:"+layer);
+    			return;
     		}
-	  //   	clipLayer = new ol.layer.VectorTile({
-			//     source: new ol.source.VectorTile({
-			//       format: new ol.format.TopoJSON(),
-			//       tileGrid: ol.tilegrid.createXYZ({maxZoom: 19}),
-			//       url: 'https://tile.mapzen.com/mapzen/vector/v1/buildings/{z}/{x}/{y}.topojson?api_key=odes-9thVtDE'
-			//     }),
-			//     style: styleF,
-			//     opacity : 1
-			// });
-			clipLayer = new ol.layer.Tile({
-	            source: new ol.source.OSM(),
-	            opacity : 0.6
-	        });
 	    	var mousePosition = null;
 	        d3.select(map.getViewport()).on('mousemove', function() {
 	            mousePosition = [event.x,event.y];
@@ -232,8 +233,9 @@ var Map = (function(){
 		      opacity: 0.8,
 		      style: function(feature){
 		      	 var st = styles[feature.getGeometry().getType()];
+		      	 var excessTime = feature.getProperties().excessTime;
 				 st.setFill(new ol.style.Fill({
-				    color: colorSc(feature.getProperties().excessTime/(max-120)).hex()
+				    color: colorSc(feature.getProperties().excessTime/((100+DataOp.config.codeParams.cutoffExcessTime)-(100+DataOp.config.codeParams.minExcessTime))).hex()
 				 }));
 			     return st;
 		      }
@@ -374,7 +376,7 @@ var Map = (function(){
 		isFeatureSelected = true;
 		route[1] = centroid;
 
-		var toFeature = new ol.Feature({
+		toFeature = new ol.Feature({
 	      geometry: new ol.geom.Point(centroid).transform( 'EPSG:4326', 'EPSG:3857'),
 	      name: 'Destination'
 	    });
@@ -402,12 +404,12 @@ var Map = (function(){
 			routeFeature = new ol.Feature(new ol.geom.LineString(coords).transform( 'EPSG:4326', 'EPSG:3857'));
 		    routeFeature.setStyle(new ol.style.Style({
 		      stroke: new ol.style.Stroke({
-		        color: '#333',
+		        color: '#00BCD4',
 		        width: 3
 		      })
 		    }));
 			vectorSource.addFeature(routeFeature);
-			Menu.updateStmt2("dir","between area A and B");
+			Menu.routeRender();
 		});
 	}
 
@@ -455,17 +457,6 @@ var Map = (function(){
 	      }))
 	    }));
 
-		// fromFeature = new ol.Feature(new ol.geom.Point(centroid).transform( 'EPSG:4326', 'EPSG:3857'));
-		// fromFeature.setStyle(new ol.style.Style({
-		// 			          image: new ol.style.RegularShape({
-		// 			            fill: fill,
-		// 			            stroke: stroke,
-		// 			            points: 4,
-		// 			            radius: 10,
-		// 			            radius2: 0,
-		// 			            angle: 0
-		// 			          })
-		// 			        }));
 		vectorSource.addFeature(fromFeature);
 		Menu.render();
 		if(route[1].length){
@@ -505,12 +496,25 @@ var Map = (function(){
 		     function(feature, layer) {
 		     if(feature.values_.tile_id && ids.indexOf(feature.values_.tile_id)==-1){
 		     	ids.push(feature.values_.tile_id);
-		     	if(isFeatureSelected){
-		     		renderTo(feature.values_.tile_id,feature.values_.centroid);
-		     		Menu.updateInput(feature.values_.centroid,"to");
-		     	}else{
-		     		renderFrom(feature.values_.tile_id,feature.values_.centroid);
-		     		Menu.updateInput(feature.values_.centroid,"from");
+		     	var cent = feature.values_.centroid;
+		     	//Order of priority
+		     	//If matches tile A
+		     	//If matches tile B
+		     	//If tile A is not selected
+		     	//If tile B is not selected
+		     	if(cent.toString() == route[0].toString()){
+		     		Menu.clearFrom(route[1].length>0);
+		     		Map.revertRoute("from");
+		     	}
+		     	else if(cent.toString() == route[1].toString()){
+		     		Menu.clearTo(route[0].length>0);
+		     		Map.revertRoute("to");
+		     	}else if(!route[0].length){
+		     		renderFrom(feature.values_.tile_id,cent);	
+		     		Menu.updateInput(cent,"from");
+		     	}else if(!route[1].length){
+		     		renderTo(feature.values_.tile_id,cent);	
+		     		Menu.updateInput(cent,"to");
 		     	}
 		     }
 		   });                                                         
@@ -521,12 +525,13 @@ var Map = (function(){
 	return {
 		init : init,
 		revertRoute : revertRoute,
-		renderTileLayer : function(){
-			TileLayer.addTiles(function(){
-			 	ClipLayer.createClipLayer("landuse");
-			})
+		renderTileLayer : function(callback){
+			TileLayer.addTiles(callback)
 		},
 		renderFrom : renderFrom,
-		renderTo : renderTo
+		renderTo : renderTo,
+		clipLayer : function(layer){
+			ClipLayer.createClipLayer(layer);
+		}
 	}
 })();

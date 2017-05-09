@@ -44,19 +44,24 @@
       </div>
     </div>
     <div class='row initBtns'>
-      <div class='initial'>
-        <div class='col-md-4 explore'>
-        EXPLORE
+      <div class='initial col-md-12'>
+        <div class='row'>
+          <div class='storyline col-md-8'>
+            <div class='btn'>1</div>
+            <div class='btn'>2</div>
+            <div class='btn'>3</div>
+            <div class='btn'>4</div>
+          </div>
         </div>
-        <div class='col-md-4 interact'>
-        INTERACT
+        <div class='row'>
+          <div class='col-md-4 explore'>
+          EXPLORE
+          </div>
+          <div class='col-md-4 interact'>
+          INTERACT
+          </div>
         </div>
-        <div class='storyline col-md-8'>
-          <div class='btn'>1</div>
-          <div class='btn'>2</div>
-          <div class='btn'>3</div>
-          <div class='btn'>4</div>
-        </div>
+        
       </div>
 
     </div>
@@ -82,9 +87,10 @@
 <div class='bars inactive'>
   <div class="container-fluid">
       <div class='row'>
-        <div class='col-md-11 seperator'>
+       <!-- <div class='col-md-11 seperator'>
           Mean Excess Time
         </div>
+      -->
       </div>
       <div class='row'>
         <div class='col-md-11 day bar'>
@@ -99,6 +105,18 @@
         </div>
       </div>
   </div>
+</div>
+<div class='lenses container-fluid inactive'>
+  <div class="row">
+    <div class='col-md-4 lens gen' data-layer="gen" data-tooltip="Detailed Map">
+    </div>
+    <div class='col-md-4 lens roads' data-layer="roads" data-tooltip="Road Layout">
+    </div>
+    <!-- <div class='col-md-4 lens landuse' data-layer="landuse">
+    </div> -->
+  </div>
+</div>
+<div class='tooltipCont'>
 </div>
 <script src="js/lib/ol.debug.js"></script>
 <script src="js/lib/chroma.min.js"></script>

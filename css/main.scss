@@ -1,5 +1,5 @@
-$main-color: #37474F;
-$main-font-color: #37474F;
+$main-color: #757575;
+$main-font-color: #757575;
 $secondary-font-color: #607D8B;
 $bar-color: $main-color;
 $reverse-font-color: #ECEFF1;
@@ -57,8 +57,12 @@ text{
         }
         
         .initBtns{
-            .explore,.interact{
+            .explore{
                 display: none;
+            }
+            .interact{
+                display: block;
+                margin-top: 20%;
             }
             .storyline{
                 display: block;
@@ -226,6 +230,11 @@ text{
         }
         .stmt2{
             margin-bottom: 6%;
+            .dist{
+                &.hidden{
+                    display: none;
+                }
+            }
         }
         .stmt3{
             &.hidden{
@@ -235,7 +244,7 @@ text{
         .stmt4{
             display: none;
             min-height: 100px;
-            font-size: 115%;
+            font-size: 125%;
             color: $hex-grid-color;
         }
         span{
@@ -243,17 +252,17 @@ text{
         .areaPart{
             border-bottom: 2px solid $hex-grid-color;
             font-weight: bold;
-            font-size: 125%;
+            font-size: 105%;
             color: $hex-grid-color;
             padding: 0 1.5%;
             border-radius: 5%;
             margin-bottom: 5%;
         }
         .timeVal{
-            border-bottom: 2px solid $main-color;
+            border-bottom: 2px solid $hex-grid-color;
             border-radius: 5%;
-            font-size: 125%;
-            color: $main-color;
+            font-size: 105%;
+            color: $hex-grid-color;
             padding: 0 1.5%;
         }
     }
@@ -306,8 +315,8 @@ text{
     width: 17%;
     position: absolute;
     right: 0;
-    top: 0;
-    height: 100%;
+    top: 10px;
+    height: 85%;
     background: -webkit-linear-gradient(right, rgba(255,255,255,1) , rgba(255,255,255,0));
     .seperator{
         margin-bottom: 2%;
@@ -316,12 +325,63 @@ text{
         padding-top: 15px;
     }
     .bar{
+        &.hidden{
+            display: none;
+        }
+        cursor: pointer;
         rect{
             fill: $bar-color;
         }
         .barSelected{
             rect{
                 fill: $bar-color-selected;
+            }
+        }
+        text{
+            font-size: 80%;
+        }
+        .barCutoff{
+            fill: $hex-grid-color;
+        }
+    }
+}
+.lenses{
+    width: 15%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 15%;
+    padding-left: 2%;
+    background: -webkit-linear-gradient(right, rgba(255,255,255,1) , rgba(255,255,255,0));
+    &.inactive{
+        display: none;
+    }
+    &.explore{
+        display: block;
+    }
+    > div{
+        height: 100%;
+        .lens{
+            margin: 5px;
+            height: 50px;
+            width: 50px;
+            margin-top: 12.5%;
+            border-radius: 50%;
+            background-size: 100%;
+            background-position: center;
+            border: 4px solid $main-color;
+            cursor: pointer;
+            &.active{
+               border: 5px solid $hex-grid-color; 
+            }
+            &.gen{
+                background-image: url("../images/gen_layer.png");
+            }
+            &.roads{
+                background-image: url("../images/roads_layer.png");
+            }
+            &.landuse{
+                background-image: url("../images/landuse_layer.png");
             }
         }
     }
@@ -338,4 +398,19 @@ text{
 		}
 	}
 	
+}
+
+.tooltipCont{
+    display: none;
+    position: absolute;
+    min-width: 10vh;
+    background-color: #f9f9f9;
+    top: 0;
+    padding: 5px;
+    border: 2px solid $main-color;
+    border-radius: 5px;
+    text-align: center;
+    &.visible{
+        display: block;
+    }
 }
