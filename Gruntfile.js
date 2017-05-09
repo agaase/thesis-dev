@@ -25,7 +25,7 @@ module.exports = function(grunt) {
                     stripBanners: true
                 },
                 files: {
-                    'dist/<%= distName %>-<%= meta.version %>.<%= minSuffix %>.js': ['js/lib/ol.debug.js',]
+                    'dist/<%= distName %>-<%= meta.version %>.<%= minSuffix %>.js': ['js/lib/ol.debug.js','js/lib/chroma.min.js','js/lib/d3.min.js','js/lib/slider.js','js/lib/turf.min.js','js/data-op.js','js/menu.js','js/map.js','js/main.js']
                 }
             }
         },
@@ -55,9 +55,7 @@ module.exports = function(grunt) {
                     globals: {
                         window: true,
                         $: true,
-                        jQuery: true,
-                        Genwi: true,
-                        GENWI: true,
+                        d3: true,
                         console: true,
                         alert: true,
                         setTimeout: true,
@@ -67,7 +65,7 @@ module.exports = function(grunt) {
                         document: true,
                     }
                 },
-                src: ['src/*.js']
+                src: ['js/*.js']
             }
         }
     });
@@ -80,6 +78,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify']);
+    grunt.registerTask('default', ['clean', 'concat', 'uglify']);
 
 };

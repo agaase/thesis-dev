@@ -9,6 +9,13 @@
 							   .range([0,width-marginLeft-marginRight]);
 
 		DataOp.fetchBarData(barName,function(data){
+			if(barName == "time"){
+				//Sorting by key in the chronological order
+				data = data.sort(function(a,b){return parseInt(a.key.split(":")[0])-parseInt(b.key.split(":")[0])})
+			}else if(barName == "day"){
+				//Sorting by key in the chronological order
+				data = data.sort(function(a,b){return (a.key ==0 ? 10 : a.key)-(b.key ==0 ? 10 : b.key)})
+			}
 			if(d3.select("."+barName+".bar svg").empty()){
 				var svgBar = d3.select("."+barName+".bar")
 							  .append("svg")
@@ -248,10 +255,15 @@
 		})
 
 		d3.selectAll(".lens").on("click",function(){
-			d3.selectAll(".lens").classed("active",false);
-			var layer = d3.select(this).attr("data-layer");
-			d3.select(this).classed("active",true);
-			Map.clipLayer(layer);
+			if(d3.select(this).classed("active")){
+				d3.select(this).classed("active",false);
+				Map.clipLayer();
+			}else{
+				d3.selectAll(".lens").classed("active",false);
+				var layer = d3.select(this).attr("data-layer");
+				d3.select(this).classed("active",true);
+				Map.clipLayer(layer);	
+			}
 		})
 		.on("mouseover",tooltipMouseoverHandler)
 		.on("mouseout",tooltipMouseoutHandler)

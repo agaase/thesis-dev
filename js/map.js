@@ -132,6 +132,10 @@ var Map = (function(){
     	var createClipLayer = function(layer){
     		if(clipLayer){
     			map.removeLayer(clipLayer);
+    			if(!layer){
+    				//If layer type is not passed; just return
+    				return;
+    			}
     		}
     		if(layer=="roads" || layer == "landuse"){
     			clipLayer = new ol.layer.VectorTile({
@@ -191,40 +195,6 @@ var Map = (function(){
 	var TileLayer = (function(){
 		var tileLayer, max=0, areas=0, excessTime = 20, totalTiles=523, tilesToShow, newExcessTime;
 
-		/**
-		* To animate tiles; not using; too heavy!
-		
-		var flash = function(feature){
-			var duration=100;
-			var start = new Date().getTime();
-			var listenerKey;
-			var animate = function(event) {
-			    var vectorContext = event.vectorContext;
-			    var frameState = event.frameState;
-			    var flashGeom = feature.getGeometry().clone();
-			    var elapsed = frameState.time - start;
-			    var elapsedRatio = elapsed / duration;
-			    var opacity = ol.easing.linear(elapsedRatio)-.4;
-
-			    var st = styles["Polygon"];
-			    var col = colorSc(feature.getProperties().excessTime/(max-100)).rgba();
-			    col[3] = opacity;
-				st.setFill(new ol.style.Fill({
-				  color: col,
-				  snapToPixel: true
-				}));
-			    vectorContext.setStyle(st);
-			    vectorContext.drawGeometry(flashGeom);
-			    if (elapsed >= duration) {
-			      // ol.Observable.unByKey(listenerKey);
-			      return;
-			    }
-			    // tell OpenLayers to continue postcompose animation
-			    map.render();
-		    }
-		    listenerKey = map.on('postcompose', animate);
-		}
-		*/
 		var setupLayer = function(){
 			vectorSource = new ol.source.Vector({
 		    }); 
@@ -313,7 +283,9 @@ var Map = (function(){
 						},parseInt(Math.random()*areas)/3)
 					}
 				});
-		        callback();
+				if(callback){
+					callback();	
+				}
 	        })
 		}
 
