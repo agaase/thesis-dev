@@ -88,9 +88,11 @@ var App = (function(){
 					})
 				})
 				d3.select(".interact").on("click",function(){
+					Menu.resetFilters();
+					d3.selectAll(".bar svg").remove();
 					d3.select(".menu").classed("inactive",false).classed("explore",false);
-					d3.select(".bars").classed("inactive",false);
-					d3.select(".lenses").classed("inactive",false);
+					d3.select(".bars").classed("inactive",false).classed("explore",false);
+					d3.select(".lenses").classed("inactive",false).classed("explore",false);
 					Menu.init();
 				})
 			})

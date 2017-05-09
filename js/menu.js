@@ -2,7 +2,7 @@
 	var defaultColor = "#cccccc", filters={};
 	var renderBarData = function(barName,domain,filterFunction){
 		var bbox = d3.select("."+barName+".bar").node().getBoundingClientRect();
-		var width = bbox.width, height = bbox.height, marginLeft=60, marginRight=20, marginTop=25;
+		var width = bbox.width, height = bbox.height, marginLeft=60, marginRight=30, marginTop=25;
 		// d3.select("."+barName+".bar svg").remove();
 		var scale = d3.scaleLinear()
 							   .domain(domain)
@@ -211,7 +211,7 @@
 					ele = d3.select(".results.to")
 				}
 				ele.html("");
-				d3.json("http://localhost:8383/places/"+d3.select(this).node().value,function(resp){
+				d3.json(DataOp.config.localUrl+":8383/places/"+d3.select(this).node().value,function(resp){
 					var results = resp.results;
 					var atleastOneValid = false;
 					if(results.length){

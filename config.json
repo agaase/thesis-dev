@@ -1,5 +1,6 @@
 {
-	"esUrl" : "http://localhost:9200",
+	"esPort" : "9200",
+	"localUrl" : "http://localhost",
 	"keyMap" : {
 		"dist" : {
 			"*-5000.0" : "*-5kms",

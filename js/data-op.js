@@ -72,7 +72,7 @@ var DataOp = (function(){
 
 	//Request to ES with a GET query
 	var fetchFromES = function(q,callback){
-		d3.request(DataOp.config.esUrl+'/delhi/drivingTime/_search').send("POST", JSON.stringify(q), function(resp){
+		d3.request(DataOp.config.localUrl + ":"+DataOp.config.esPort+'/delhi/drivingTime/_search').send("POST", JSON.stringify(q), function(resp){
 			callback(JSON.parse(resp.response));	
 		});	
 	}
