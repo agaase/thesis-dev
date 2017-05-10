@@ -22,12 +22,18 @@ text {
     display: block; }
     .menu.inactive .initBtns .explore.hidden, .menu.inactive .initBtns .interact.hidden {
       display: none; }
+  .menu.inactive .statement > div {
+    border-left: 0;
+    padding-left: 0; }
   .menu.inactive .statement .stmt4 {
     display: block; }
   .menu.inactive .statement .stmt1, .menu.inactive .statement .stmt2, .menu.inactive .statement .stmt3 {
     display: none; }
   .menu.explore .atob, .menu.explore .sliderCont {
     display: none; }
+  .menu.explore .statement > div {
+    border-left: 0;
+    padding-left: 0; }
   .menu.explore .statement .stmt4 {
     display: block; }
   .menu.explore .statement .stmt1, .menu.explore .statement .stmt2, .menu.explore .statement .stmt3 {
@@ -152,16 +158,16 @@ text {
   .menu .statement {
     font-size: 115%;
     font-weight: bold;
-    margin-bottom: 5%;
+    margin-bottom: 15%;
     margin-top: 5%; }
     .menu .statement > div {
-      padding: 0; }
-    .menu .statement .stmt1 {
-      line-height: 225%; }
-      .menu .statement .stmt1.hidden {
-        display: none; }
+      padding: 0;
+      border-left: 2px solid #757575;
+      padding-left: 4%; }
+    .menu .statement .stmt1.hidden {
+      display: none; }
     .menu .statement .stmt2 {
-      margin-bottom: 6%; }
+      margin-bottom: 4%; }
       .menu .statement .stmt2 .dist.hidden {
         display: none; }
     .menu .statement .stmt3.hidden {
@@ -178,17 +184,13 @@ text {
       .menu .statement .stmt4.hidden {
         display: none; }
     .menu .statement .areaPart {
-      border-bottom: 2px solid #00BCD4;
       font-weight: bold;
-      font-size: 105%;
       color: #00BCD4;
       padding: 0 1.5%;
       border-radius: 5%;
       margin-bottom: 5%; }
     .menu .statement .timeVal {
-      border-bottom: 2px solid #00BCD4;
       border-radius: 5%;
-      font-size: 105%;
       color: #00BCD4;
       padding: 0 1.5%; }
   .menu .slider .ticks {
