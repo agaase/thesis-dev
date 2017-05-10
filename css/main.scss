@@ -6,7 +6,6 @@ $reverse-font-color: #ECEFF1;
 $hex-grid-color: #00BCD4;
 $bar-color-selected: $hex-grid-color;
 
-
 body,html{
     height: 100%;
     color: $main-font-color;
@@ -32,6 +31,9 @@ text{
         .initBtns{
             .explore,.interact{
                 display: block;
+                &.hidden{
+                    display: none;
+                }
             }
         }
         .statement{
@@ -61,12 +63,12 @@ text{
                 display: none;
             }
             .interact{
-                display: block;
+                display: none;
                 margin-top: 20%;
             }
-            .storyline{
+        }
+        .storyline{
                 display: block;
-            }
         }
     }
     .initBtns{
@@ -80,20 +82,21 @@ text{
             line-height: 150%;
             cursor: pointer;
         }
-        .storyline{
-            display: none;
-            padding: 0;
-            .btn{
-                border: 1px solid;
-                padding: 4px 10px;
-                &.active{
-                    border: 2.5px solid $hex-grid-color;
-                    color: $hex-grid-color;
-                }
-            }
-        }
         .explore{
             margin-right: 5%;
+        }
+    }
+    .storyline{
+        display: none;
+        padding: 0;
+        margin-top: 5%;
+        .btn{
+            border: 1px solid;
+            padding: 2px 8px;
+            &.active{
+                border: 2.5px solid $hex-grid-color;
+                color: $hex-grid-color;
+            }
         }
     }
     .heading{
@@ -111,6 +114,10 @@ text{
     	font-size: 185%;
         font-weight: bold;
         font-family: 'Libre Baskerville', serif;
+        a{
+            color: $main-color;
+            text-decoration: none;
+        }
     }
     .row{
         margin-bottom: 0;
@@ -242,10 +249,18 @@ text{
             }
         }
         .stmt4{
+            margin-top: 5%;
             display: none;
             min-height: 100px;
-            font-size: 125%;
+            font-size: 120%;
             color: $hex-grid-color;
+            >div{
+                margin-top: 6%;
+                opacity: 0;
+            }
+            &.hidden{
+                display: none;
+            }
         }
         span{
         }
@@ -310,7 +325,7 @@ text{
         display: none;
     }
     &.explore{
-        display: none;
+        /*display: none;*/
     }
     width: 17%;
     position: absolute;
@@ -335,6 +350,11 @@ text{
         .barSelected{
             rect{
                 fill: $bar-color-selected;
+            }
+            text{
+                fill: $bar-color-selected;
+                font-size: 125%;
+                font-weight: bold;
             }
         }
         text{

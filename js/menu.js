@@ -2,7 +2,7 @@
 	var defaultColor = "#cccccc", filters={};
 	var renderBarData = function(barName,domain,filterFunction){
 		var bbox = d3.select("."+barName+".bar").node().getBoundingClientRect();
-		var width = bbox.width, height = bbox.height, marginLeft=60, marginRight=30, marginTop=25;
+		var width = bbox.width, height = bbox.height, marginLeft=80, marginRight=30, marginTop=25;
 		// d3.select("."+barName+".bar svg").remove();
 		var scale = d3.scaleLinear()
 							   .domain(domain)
@@ -49,20 +49,22 @@
 									  .text(DataOp.config["keyMap"][barName][d.key])
 					})
 					.on("click",function(){
-						  if(d3.select(this).classed("barSelected")){
-						  	d3.select(this).classed("barSelected",false);
-						  	d3.select(this.parentNode).classed("selected",false);
-						  	updateStmt2(barName,"");
-						  	delete filters[barName];
-						  	Menu.render();
-						  }else{
-							  d3.select("."+barName+".bar svg").classed("selected",true);
-							  d3.selectAll("."+barName+".bar svg g").classed("barSelected",false);
-							  d3.select(this).classed("barSelected",true);
-							  var keyVal = d3.select(this).attr("bar-key").split("-");
-						      filters[barName] = filterFunction(keyVal);
-						      updateStmt2(barName,DataOp.config["keyMap"][barName][keyVal.join("-")]);
-						      Menu.render();
+						  if(!d3.select(".menu").classed("explore")){
+							  if(d3.select(this).classed("barSelected")){
+							  	d3.select(this).classed("barSelected",false);
+							  	d3.select(this.parentNode).classed("selected",false);
+							  	updateStmt2(barName,"");
+							  	delete filters[barName];
+							  	Menu.render();
+							  }else{
+								  d3.select("."+barName+".bar svg").classed("selected",true);
+								  d3.selectAll("."+barName+".bar svg g").classed("barSelected",false);
+								  d3.select(this).classed("barSelected",true);
+								  var keyVal = d3.select(this).attr("bar-key").split("-");
+							      filters[barName] = filterFunction(keyVal);
+							      updateStmt2(barName,DataOp.config["keyMap"][barName][keyVal.join("-")]);
+							      Menu.render();
+						      }
 					      }
 					});
 					

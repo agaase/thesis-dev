@@ -255,34 +255,36 @@ var Map = (function(){
 						}
 					}
 				}
-		        if(route[0].length & route[1].length){
-		        	var eT;
-		        	//When there is a route, there is only one record
-		        	for(var key in tilesToShow){
-		        		eT = tilesToShow[key];
-		        	}
-		        	Menu.updateStmt3(eT-100);
-		        }else{
-		        	Menu.updateStmt1(areas/totalTiles,excessTime);	
-		        	//We only need the slider when its not a route
-		        	Slider.init(excessTime,(max-100),sliderData,function(n){
-			        	updateTiles(n+100);
-			        });
-		        }
-		        DataOp.tileData.forEach(function(v,i){
-					var eT = tilesToShow[v.properties.tile_id];
-					if(eT>=(100+excessTime)){
-						var feature = new ol.Feature({
-						  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
-						  tile_id: v.properties.tile_id,
-						  centroid: v.properties.centroid,
-						  excessTime : eT-(120)
-						});
-						setTimeout(function(){
-							vectorSource.addFeature(feature);
-						},parseInt(Math.random()*areas)/3)
-					}
-				});
+				if(areas){
+			        if(route[0].length & route[1].length){
+			        	var eT;
+			        	//When there is a route, there is only one record
+			        	for(var key in tilesToShow){
+			        		eT = tilesToShow[key];
+			        	}
+			        	Menu.updateStmt3(eT-100);
+			        }else{
+			        	Menu.updateStmt1(areas/totalTiles,excessTime);	
+			        	//We only need the slider when its not a route
+			        	Slider.init(excessTime,(max-100),sliderData,function(n){
+				        	updateTiles(n+100);
+				        });
+			        }
+			        DataOp.tileData.forEach(function(v,i){
+						var eT = tilesToShow[v.properties.tile_id];
+						if(eT>=(100+excessTime)){
+							var feature = new ol.Feature({
+							  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
+							  tile_id: v.properties.tile_id,
+							  centroid: v.properties.centroid,
+							  excessTime : eT-(120)
+							});
+							setTimeout(function(){
+								vectorSource.addFeature(feature);
+							},parseInt(Math.random()*areas)/3)
+						}
+					});
+				}
 				if(callback){
 					callback();	
 				}
@@ -336,7 +338,7 @@ var Map = (function(){
 	})();
 
 	/** Variation of commute time to one area from other areas **/
-	var renderTo = function(id, centroid){
+	var renderTo = function(id, centroid,callback){
 		var f = {
 		  "term": {
 		    "tEn": {
@@ -360,7 +362,7 @@ var Map = (function(){
 	    }));
 
 		vectorSource.addFeature(toFeature);
-		Menu.render();
+		Menu.render(callback);
 		if(route[0].length){
 			renderRoute();
 		}
@@ -386,19 +388,27 @@ var Map = (function(){
 	}
 
 	var revertRoute = function(type){
-		if(type=="from"){
-			vectorSource.removeFeature(fromFeature);
-			route[0] = [];
-			
-		}else if(type=="to"){
-			vectorSource.removeFeature(toFeature);
-			route[1] = [];
-		}
 		try{
+			if(type=="from"){
+				if(fromFeature){
+					vectorSource.removeFeature(fromFeature);
+					route[0] = [];
+				}else{
+					return;
+				}
+			}else if(type=="to"){
+				if(toFeature){
+					vectorSource.removeFeature(toFeature);
+					route[1] = [];	
+				}else{
+					return;
+				}
+			}
 			vectorSource.removeFeature(routeFeature);	
 		}
 		catch(err){
 			//Doing it redundantly;
+			return;
 		}
 		Menu.render();
 		if(!route[0].length && !route[1].length){
@@ -407,7 +417,7 @@ var Map = (function(){
 	}
 
 	/** Variation of commute time from one area to other areas **/	
-	var renderFrom = function(id, centroid){
+	var renderFrom = function(id, centroid,callback){
 		var f = {
 		  "term": {
 		    "tFr": {
@@ -430,7 +440,7 @@ var Map = (function(){
 	    }));
 
 		vectorSource.addFeature(fromFeature);
-		Menu.render();
+		Menu.render(callback);
 		if(route[1].length){
 			renderRoute();
 		}
@@ -463,33 +473,35 @@ var Map = (function(){
 	      })
 	    });
 	    map.on('singleclick', function(evt) {   
-	       var ids = [];
-		   var feature = map.forEachFeatureAtPixel(evt.pixel,
-		     function(feature, layer) {
-		     if(feature.values_.tile_id && ids.indexOf(feature.values_.tile_id)==-1){
-		     	ids.push(feature.values_.tile_id);
-		     	var cent = feature.values_.centroid;
-		     	//Order of priority
-		     	//If matches tile A
-		     	//If matches tile B
-		     	//If tile A is not selected
-		     	//If tile B is not selected
-		     	if(cent.toString() == route[0].toString()){
-		     		Menu.clearFrom(route[1].length>0);
-		     		Map.revertRoute("from");
-		     	}
-		     	else if(cent.toString() == route[1].toString()){
-		     		Menu.clearTo(route[0].length>0);
-		     		Map.revertRoute("to");
-		     	}else if(!route[0].length){
-		     		renderFrom(feature.values_.tile_id,cent);	
-		     		Menu.updateInput(cent,"from");
-		     	}else if(!route[1].length){
-		     		renderTo(feature.values_.tile_id,cent);	
-		     		Menu.updateInput(cent,"to");
-		     	}
-		     }
-		   });                                                         
+		    if(!d3.select(".menu").classed("explore")){
+		       var ids = [];
+			   var feature = map.forEachFeatureAtPixel(evt.pixel,
+			     function(feature, layer) {
+			     if(feature.values_.tile_id && ids.indexOf(feature.values_.tile_id)==-1 && feature.values_.excessTime){
+			     	ids.push(feature.values_.tile_id);
+			     	var cent = feature.values_.centroid;
+			     	//Order of priority
+			     	//If matches tile A
+			     	//If matches tile B
+			     	//If tile A is not selected
+			     	//If tile B is not selected
+			     	if(cent.toString() == route[0].toString()){
+			     		Menu.clearFrom(route[1].length>0);
+			     		Map.revertRoute("from");
+			     	}
+			     	else if(cent.toString() == route[1].toString()){
+			     		Menu.clearTo(route[0].length>0);
+			     		Map.revertRoute("to");
+			     	}else if(!route[0].length){
+			     		renderFrom(feature.values_.tile_id,cent);	
+			     		Menu.updateInput(cent,"from");
+			     	}else if(!route[1].length){
+			     		renderTo(feature.values_.tile_id,cent);	
+			     		Menu.updateInput(cent,"to");
+			     	}
+			     }
+			   });  
+			}                                                       
 		});   
         map.addLayer(BoundaryLayer);
         map.addLayer(BaseHexGridLayer);

@@ -20,6 +20,8 @@ text {
     display: none; }
   .menu.inactive .initBtns .explore, .menu.inactive .initBtns .interact {
     display: block; }
+    .menu.inactive .initBtns .explore.hidden, .menu.inactive .initBtns .interact.hidden {
+      display: none; }
   .menu.inactive .statement .stmt4 {
     display: block; }
   .menu.inactive .statement .stmt1, .menu.inactive .statement .stmt2, .menu.inactive .statement .stmt3 {
@@ -33,9 +35,9 @@ text {
   .menu.explore .initBtns .explore {
     display: none; }
   .menu.explore .initBtns .interact {
-    display: block;
+    display: none;
     margin-top: 20%; }
-  .menu.explore .initBtns .storyline {
+  .menu.explore .storyline {
     display: block; }
   .menu .initBtns .explore, .menu .initBtns .interact {
     display: none;
@@ -46,17 +48,18 @@ text {
     text-align: center;
     line-height: 150%;
     cursor: pointer; }
-  .menu .initBtns .storyline {
-    display: none;
-    padding: 0; }
-    .menu .initBtns .storyline .btn {
-      border: 1px solid;
-      padding: 4px 10px; }
-      .menu .initBtns .storyline .btn.active {
-        border: 2.5px solid #00BCD4;
-        color: #00BCD4; }
   .menu .initBtns .explore {
     margin-right: 5%; }
+  .menu .storyline {
+    display: none;
+    padding: 0;
+    margin-top: 5%; }
+    .menu .storyline .btn {
+      border: 1px solid;
+      padding: 2px 8px; }
+      .menu .storyline .btn.active {
+        border: 2.5px solid #00BCD4;
+        color: #00BCD4; }
   .menu .heading > div {
     padding: 0; }
   .menu > div {
@@ -67,6 +70,9 @@ text {
     font-size: 185%;
     font-weight: bold;
     font-family: 'Libre Baskerville', serif; }
+    .menu h3 a {
+      color: #757575;
+      text-decoration: none; }
   .menu .row {
     margin-bottom: 0;
     margin-top: 0; }
@@ -161,10 +167,16 @@ text {
     .menu .statement .stmt3.hidden {
       display: none; }
     .menu .statement .stmt4 {
+      margin-top: 5%;
       display: none;
       min-height: 100px;
-      font-size: 125%;
+      font-size: 120%;
       color: #00BCD4; }
+      .menu .statement .stmt4 > div {
+        margin-top: 6%;
+        opacity: 0; }
+      .menu .statement .stmt4.hidden {
+        display: none; }
     .menu .statement .areaPart {
       border-bottom: 2px solid #00BCD4;
       font-weight: bold;
@@ -215,7 +227,7 @@ text {
   .bars.inactive {
     display: none; }
   .bars.explore {
-    display: none; }
+    /*display: none;*/ }
   .bars .seperator {
     margin-bottom: 2%;
     font-size: 120%;
@@ -229,6 +241,10 @@ text {
       fill: #757575; }
     .bars .bar .barSelected rect {
       fill: #00BCD4; }
+    .bars .bar .barSelected text {
+      fill: #00BCD4;
+      font-size: 125%;
+      font-weight: bold; }
     .bars .bar text {
       font-size: 80%; }
     .bars .bar .barCutoff {
