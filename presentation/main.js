@@ -16,10 +16,10 @@ window.onload = function(){
 var goRight = function(){
 	var urls = window.location.href.split("/");
 	var number = parseInt(urls[urls.length-1].split(".")[0]);
-	if((number+1)<6){
+	if((number+1)<7){
 		window.location.href=(number+1)+".html";
 	}else{
-		window.location.href="/?interface=interact";
+		window.location.href="/?interface=explore";
 	}
 }
 var goLeft = function(){
