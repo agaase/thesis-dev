@@ -181,6 +181,7 @@ var App = (function(){
 
 
 	var reset = function(){
+		d3.select(".interact").classed("hidden",true).classed("showForce",false);	
 		Menu.resetFilters();
 		Map.revertRoute("from");
 		Map.revertRoute("to");
