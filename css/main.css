@@ -41,8 +41,9 @@ text {
   .menu.explore .initBtns .explore {
     display: none; }
   .menu.explore .initBtns .interact {
-    display: none;
-    margin-top: 20%; }
+    display: none; }
+    .menu.explore .initBtns .interact.showForce {
+      display: block; }
   .menu.explore .storyline {
     display: block; }
   .menu .initBtns .explore, .menu .initBtns .interact {

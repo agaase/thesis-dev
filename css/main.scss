@@ -72,7 +72,9 @@ text{
             }
             .interact{
                 display: none;
-                margin-top: 20%;
+                &.showForce{
+                    display: block;
+                }
             }
         }
         .storyline{

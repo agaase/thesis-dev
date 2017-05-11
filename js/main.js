@@ -169,6 +169,12 @@ var App = (function(){
 				});
 				btnHighlight(nodes[ct]);
 				pos=ct;
+			}else if(ct == 10){
+				stmtUpdate("Find your own insights!",true,true);
+				setTimeout(function(){
+					d3.select(".interact").classed("hidden",false).classed("showForce",true).on("click",showInteractive);	
+				},1000);	
+				
 			}
 		}
 	}
