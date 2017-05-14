@@ -80,7 +80,7 @@ var Map = (function(){
 	    var styleFunction = function(feature) {
 	      var st = new ol.style.Style({
 				    stroke: new ol.style.Stroke({
-				      color: '#CCCCCC',
+				      color: '#DDDDDD',
 				      width: 1
 				    }),
 				    fill: new ol.style.Fill({
@@ -205,7 +205,7 @@ var Map = (function(){
 		      	 var st = styles[feature.getGeometry().getType()];
 		      	 var excessTime = feature.getProperties().excessTime;
 				 st.setFill(new ol.style.Fill({
-				    color: colorSc(feature.getProperties().excessTime/((100+DataOp.config.codeParams.cutoffExcessTime)-(100+DataOp.config.codeParams.minExcessTime))).hex()
+				    color: parseInt(feature.getProperties().excessTime) < (DataOp.config.codeParams.cutoffExcessTime-DataOp.config.codeParams.minExcessTime) ? colorSc(feature.getProperties().excessTime/(DataOp.config.codeParams.cutoffExcessTime-DataOp.config.codeParams.minExcessTime)).hex() : DataOp.config.colors.exceptionColor 
 				 }));
 			     return st;
 		      }
@@ -270,20 +270,22 @@ var Map = (function(){
 				        	updateTiles(n+100);
 				        });
 			        }
-			        DataOp.tileData.forEach(function(v,i){
-						var eT = tilesToShow[v.properties.tile_id];
-						if(eT>=(100+excessTime)){
-							var feature = new ol.Feature({
-							  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
-							  tile_id: v.properties.tile_id,
-							  centroid: v.properties.centroid,
-							  excessTime : eT-(120)
-							});
-							setTimeout(function(){
-								vectorSource.addFeature(feature);
-							},parseInt(Math.random()*areas)/3)
-						}
-					});
+			        if(!route[0].length || !route[1].length){
+				        DataOp.tileData.forEach(function(v,i){
+							var eT = tilesToShow[v.properties.tile_id];
+							if(eT>=(100+excessTime)){
+								var feature = new ol.Feature({
+								  geometry: new ol.geom.Polygon(v.geometry.coordinates).transform( 'EPSG:4326', 'EPSG:3857'),
+								  tile_id: v.properties.tile_id,
+								  centroid: v.properties.centroid,
+								  excessTime : eT-(120)
+								});
+								setTimeout(function(){
+									vectorSource.addFeature(feature);
+								},parseInt(Math.random()*areas)/3)
+							}
+						});
+			    	}
 				}
 				if(callback){
 					callback();	
@@ -339,6 +341,9 @@ var Map = (function(){
 
 	/** Variation of commute time to one area from other areas **/
 	var renderTo = function(id, centroid,callback){
+		if(route[1].length){
+			revertRoute("to");
+		}
 		var f = {
 		  "term": {
 		    "tEn": {
@@ -407,8 +412,7 @@ var Map = (function(){
 			vectorSource.removeFeature(routeFeature);	
 		}
 		catch(err){
-			//Doing it redundantly;
-			return;
+			//Doing it redundantly
 		}
 		Menu.render();
 		if(!route[0].length && !route[1].length){
@@ -418,6 +422,9 @@ var Map = (function(){
 
 	/** Variation of commute time from one area to other areas **/	
 	var renderFrom = function(id, centroid,callback){
+		if(route[0].length){
+			revertRoute("from");
+		}
 		var f = {
 		  "term": {
 		    "tFr": {

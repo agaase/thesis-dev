@@ -1,7 +1,7 @@
 var Slider =(function(){
   var svg, margin = {right: 10, left: 10}, slider, handle, width, x, callback, barChart, bucketScale;  
   var timer;
-  var colorSc = chroma.scale(['#FFFFF6',"#33DFF4" ,'#37474F']);
+  var colorSc = chroma.scale(['#FFFFF6',"#33DFF4" ,'#04141C']);
 
   function changePosition(h) {
     if(timer){
@@ -67,7 +67,7 @@ var Slider =(function(){
           return scaleY(d.val)+1
        })
        .style("fill",function(d){
-          return colorSc(bucketScale(parseInt(d.bucket))).hex();
+          return parseInt(d.bucket) < 175 ? colorSc(bucketScale(parseInt(d.bucket))).hex() : DataOp.config.colors.exceptionColor;
        })
        .style("stroke",function(d){
           return "#ddd";

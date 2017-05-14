@@ -5,11 +5,24 @@ $bar-color: $main-color;
 $reverse-font-color: #ECEFF1;
 $hex-grid-color: #00BCD4;
 $bar-color-selected: $hex-grid-color;
+$cutoff-color: #04141C;
 
 body,html{
     height: 100%;
     color: $main-font-color;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #aaa;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #aaa;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #aaa;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #aaa;
 }
 .ol-overlaycontainer-stopevent{
     display: none;   
@@ -121,9 +134,8 @@ text{
         }
     }
     h3{
-    	font-size: 185%;
+    	font-size: 205%;
         font-weight: bold;
-        font-family: 'Libre Baskerville', serif;
         a{
             color: $main-color;
             text-decoration: none;
@@ -290,7 +302,7 @@ text{
     }
     .slider{
         .ticks {
-          font: 10px sans-serif;
+            font-size: 75%;
         }
         .track,
         .track-inset,
@@ -368,7 +380,7 @@ text{
             font-size: 80%;
         }
         .barCutoff{
-            fill: $hex-grid-color;
+            fill: $cutoff-color;
         }
     }
 }

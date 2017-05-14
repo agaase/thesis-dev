@@ -1,7 +1,23 @@
 body, html {
   height: 100%;
   color: #757575;
-  font-family: 'Open Sans', sans-serif; }
+  font-family: 'Fjalla One', sans-serif; }
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #aaa; }
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #aaa; }
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #aaa; }
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #aaa; }
 
 .ol-overlaycontainer-stopevent {
   display: none; }
@@ -74,9 +90,8 @@ text {
     .menu > div > div {
       height: 100%; }
   .menu h3 {
-    font-size: 185%;
-    font-weight: bold;
-    font-family: 'Libre Baskerville', serif; }
+    font-size: 205%;
+    font-weight: bold; }
     .menu h3 a {
       color: #757575;
       text-decoration: none; }
@@ -195,7 +210,7 @@ text {
       color: #00BCD4;
       padding: 0 1.5%; }
   .menu .slider .ticks {
-    font: 10px sans-serif; }
+    font-size: 75%; }
   .menu .slider .track,
   .menu .slider .track-inset,
   .menu .slider .track-overlay {
@@ -251,7 +266,7 @@ text {
     .bars .bar text {
       font-size: 80%; }
     .bars .bar .barCutoff {
-      fill: #00BCD4; }
+      fill: #04141C; }
 
 .lenses {
   width: 15%;

@@ -1,9 +1,8 @@
  var Menu = (function(){
-	var defaultColor = "#cccccc", filters={};
+	var filters={};
 	var renderBarData = function(barName,domain,filterFunction){
 		var bbox = d3.select("."+barName+".bar").node().getBoundingClientRect();
 		var width = bbox.width, height = bbox.height, marginLeft=80, marginRight=30, marginTop=25;
-		// d3.select("."+barName+".bar svg").remove();
 		var scale = d3.scaleLinear()
 							   .domain(domain)
 							   .range([0,width-marginLeft-marginRight]);
@@ -37,10 +36,10 @@
 									  .on("mouseover",tooltipMouseoverHandler)
 									  .on("mouseout",tooltipMouseoutHandler)
 									  .attr("width",0)
-									  .attr("data-tooltip","Mean excess time:"+parseInt(d.value))
+									  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value))
 									  .transition()
 									  .duration(500)
-									  .attr("width",scale(d.value))
+									  .attr("width", scale(d.value))
 						  d3.select(this).append("text")
 									  .attr("x",marginLeft-2)
 									  .attr("y",marginTop+i*25 + 15/2)
@@ -74,7 +73,7 @@
 					  .attr("x2",width-marginRight)
 					  .attr("y2",marginTop/2+data.length*25)
 					  .style("stroke-width","2px")
-					  .style("stroke","#ccc")
+					  .style("stroke",DataOp.config.colors.exceptionColor)
 					  .attr("stroke-dasharray","4, 4")
 				if(barName =="day"){
 					svgBar.append("text")
@@ -91,7 +90,7 @@
 					  .data(data)
 					  .each(function(d,i){
 					  	d3.select(this)
-					  	  .attr("data-tooltip","Mean excess time:"+parseInt(d.value))
+					  	  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value))
 					  	  .transition()
 					  	  .duration(500)
 					  	  .attr("width",scale(d.value))
@@ -217,6 +216,7 @@
 					var results = resp.results;
 					var atleastOneValid = false;
 					if(results.length){
+						var ctShown=0;
 						results.forEach(function(v,i){
 							var validResult=false;
 							v.address_components.forEach(function(comp,i){
@@ -225,11 +225,12 @@
 									validResult = true;
 								}
 							});
-							if(validResult){
+							if(validResult && (ctShown+1)<4){
+								ctShown++;
 								ele.append("div")
 								   .attr("class","result valid")
 								   .attr("coord",v.geometry.location.lng+","+v.geometry.location.lat)
-								   .html(v.formatted_address);
+								   .html(v.formatted_address.substring(0,35)+"..");
 							}
 						});
 					}

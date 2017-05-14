@@ -28,7 +28,8 @@
 		}
 	},
 	"colors" : {
-		"mainColor" : "#37474F"
+		"mainColor" : "#37474F",
+		"exceptionColor" : "#04141C"
 	},
 	"codeParams" : {
 		"cutoffExcessTime" : 75,
