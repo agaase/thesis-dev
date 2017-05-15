@@ -8,7 +8,7 @@ var Map = (function(){
 	  'highway': 'rgba(255, 51, 153, 1)',
 	  'railway': 'rgba(119, 221, 238, 1)'
 	};
-	var colorSc = chroma.scale(['#FFFFF6',"#33DFF4" ,'#37474F']);
+	var colorSc;
 	var stroke = new ol.style.Stroke({color: 'black', width: 2});
     var fill = new ol.style.Fill({color: 'red'});
 
@@ -217,13 +217,21 @@ var Map = (function(){
 
 		var removeAllFeatures = function(){
 			var total = vectorSource.getFeatures().length;
-			vectorSource.getFeatures().forEach(function(v,i){
-				if(v.values_.tile_id){
-					setTimeout(function(){
-						vectorSource.removeFeature(v);
-					},parseInt((Math.random()*total)))
-				}
-			});
+			if(total){
+				vectorSource.getFeatures().forEach(function(v,i){
+					if(v.values_.tile_id){
+						setTimeout(function(){
+							try{
+								vectorSource.removeFeature(v);	
+							}catch(err){
+								//The open layer lib is throwing error here for some reason.
+								//Could be a race condition
+							}
+							
+						},parseInt((Math.random()*total)))
+					}
+				});
+			}
 		}
 		var addTiles = function(callback){
 			if(!tileLayer){
@@ -454,6 +462,7 @@ var Map = (function(){
 	}
 
 	var init = function(){
+		colorSc = chroma.scale(DataOp.config.colors.scale);
 		map = new ol.Map({
 	      layers: [
 	      	new ol.layer.VectorTile({

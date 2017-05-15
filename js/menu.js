@@ -36,7 +36,7 @@
 									  .on("mouseover",tooltipMouseoverHandler)
 									  .on("mouseout",tooltipMouseoutHandler)
 									  .attr("width",0)
-									  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value))
+									  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value)+"%")
 									  .transition()
 									  .duration(500)
 									  .attr("width", scale(d.value))
@@ -89,11 +89,13 @@
 				svgBar.selectAll("rect")
 					  .data(data)
 					  .each(function(d,i){
-					  	d3.select(this)
-					  	  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value))
-					  	  .transition()
-					  	  .duration(500)
-					  	  .attr("width",scale(d.value))
+					  	if(d.value){
+						  	d3.select(this)
+						  	  .attr("data-tooltip","Mean excess time<br>"+parseInt(d.value)+"%")
+						  	  .transition()
+						  	  .duration(500)
+						  	  .attr("width",scale(d.value))
+					  	}
 					  })
 			}
 		});

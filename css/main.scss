@@ -1,11 +1,12 @@
-$main-color: #757575;
-$main-font-color: #757575;
+$main-color: #8F8F8F;
+$main-font-color: #8F8F8F;
 $secondary-font-color: #607D8B;
 $bar-color: $main-color;
 $reverse-font-color: #ECEFF1;
 $hex-grid-color: #00BCD4;
-$bar-color-selected: $hex-grid-color;
-$cutoff-color: #04141C;
+$selected-color:#484848;
+$bar-color-selected: $selected-color;
+$cutoff-color: #00465B;
 
 body,html{
     height: 100%;
@@ -176,7 +177,7 @@ text{
                     background-image: url("../images/A.png");
                     &:hover{
                         background-image: url("../images/input_a_active.png");
-                        color: $hex-grid-color;
+                        color: $selected-color;
                     };
                     &.active{
                         background-image: url("../images/input_a_active.png");
@@ -186,14 +187,14 @@ text{
                     background-image: url("../images/B.png");
                     &:hover{
                         background-image: url("../images/input_b_active.png");
-                        color: $hex-grid-color;
+                        color: $selected-color;
                     };
                     &.active{
                         background-image: url("../images/input_b_active.png");
                     }
                 }
                 &.active{
-                    color: $hex-grid-color;
+                    color: $selected-color;
                     font-weight: bold;
                     font-size: 120%;
                 }
@@ -254,11 +255,13 @@ text{
             padding-left: 4%;
         }
         .stmt1{
+            color: $hex-grid-color;
             &.hidden{
                 display: none;
             }
         }
         .stmt2{
+            color: $selected-color;
             margin-bottom: 4%;
             .dist{
                 &.hidden{
@@ -411,7 +414,7 @@ text{
             border: 4px solid $main-color;
             cursor: pointer;
             &.active{
-               border: 5px solid $hex-grid-color; 
+               border: 5px solid $selected-color; 
             }
             &.gen{
                 background-image: url("../images/gen_layer.png");

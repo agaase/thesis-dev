@@ -1,7 +1,6 @@
 var Slider =(function(){
   var svg, margin = {right: 10, left: 10}, slider, handle, width, x, callback, barChart, bucketScale;  
-  var timer;
-  var colorSc = chroma.scale(['#FFFFF6',"#33DFF4" ,'#04141C']);
+  var timer,colorSc;
 
   function changePosition(h) {
     if(timer){
@@ -90,6 +89,7 @@ var Slider =(function(){
   }
 
   var init = function(min,max,sliderData,sliderCallback){
+    colorSc = chroma.scale(DataOp.config.colors.scale);
     d3.select(".sliderCont").classed("hidden",false);
     d3.select(".slider svg").remove();
     callback = sliderCallback;

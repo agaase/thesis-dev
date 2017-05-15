@@ -16,7 +16,7 @@ window.onload = function(){
 var goRight = function(){
 	var urls = window.location.href.split("/");
 	var number = parseInt(urls[urls.length-1].split(".")[0]);
-	if((number+1)<7){
+	if((number+1)<8){
 		window.location.href=(number+1)+".html";
 	}else{
 		window.location.href="/?interface=explore";
