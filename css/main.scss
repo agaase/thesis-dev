@@ -313,7 +313,7 @@ text{
             margin-top: 5%;
             display: none;
             min-height: 100px;
-            font-size: 120%;
+            font-size: 110%;
             color: $hex-grid-color;
             >div{
                 margin-top: 6%;
@@ -321,6 +321,9 @@ text{
             }
             &.hidden{
                 display: none;
+            }
+            .under{
+                text-decoration: underline;
             }
         }
         span{

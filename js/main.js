@@ -10,7 +10,8 @@ var App = (function(){
 		["For distances less than 5kms only 10% of areas take 50% longer"],
 		["It gets worse as the distance to commute increases"],
 		["To reach Airport it takes 60% longer from these areas"],
-		["From central Delhi it would take on average 75% longer"]
+		["From central Delhi it would take on average 75% longer"],
+		["The objective is to spread awareness about the criticality of the situation.<br><br> Help Delhi by sharing your own insights <span class='under'>@slowingdelhi</span>"]
 	]
 
 	var stmtUpdate = function(val,show,append){
@@ -170,7 +171,7 @@ var App = (function(){
 				btnHighlight(nodes[ct]);
 				pos=ct;
 			}else if(ct == 10){
-				stmtUpdate("Find your own insights!",true);
+				stmtUpdate(storyline[ct][0],true);
 				setTimeout(function(){
 					d3.select(".interact").classed("hidden",false).classed("showForce",true).on("click",showInteractive);	
 				},1000);	
