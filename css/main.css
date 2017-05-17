@@ -29,7 +29,8 @@
 body, html {
   height: 100%;
   color: #8F8F8F;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Fjalla One', sans-serif;
+  background-color: #f9f9f9; }
 
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
@@ -149,10 +150,10 @@ text {
         width: 85%;
         border: 0;
         background-position: left;
-        background-size: 20%;
+        background-size: 25%;
         background-color: transparent;
         background-repeat: no-repeat;
-        padding-left: 22%;
+        padding-left: 25%;
         cursor: pointer; }
         .menu .atob > div input.from {
           background-image: url("../images/A.png"); }
