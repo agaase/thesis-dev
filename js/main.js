@@ -11,7 +11,7 @@ var App = (function(){
 		["It gets worse as the distance to commute increases"],
 		["To reach Airport it takes 60% longer from these areas"],
 		["From central Delhi it would take on average 75% longer"],
-		["The objective is to spread awareness about the criticality of the situation.<br><br> Help Delhi by sharing your own insights <a href='https://twitter.com/slowingdelhi' class='under'>@slowingdelhi</a><br><br>Aseem Agarwal<br>www.aseemagarwal.in"]
+		["<a class='under' href='http://slowingdelhi.study'>slowingdelhi.study</a><br><br>The objective is to spread awareness about the criticality of the situation.<br><br> Help Delhi by sharing your own insights <a href='https://twitter.com/slowingdelhi' class='under'>@slowingdelhi</a><br><br>Aseem Agarwal<br>www.aseemagarwal.in"]
 	]
 
 	var stmtUpdate = function(val,show,append){
