@@ -16,10 +16,10 @@ window.onload = function(){
 var goRight = function(){
 	var urls = window.location.href.split("/");
 	var number = parseInt(urls[urls.length-1].split(".")[0]);
-	if((number+1)<8){
+	if((number+1)<10){
 		window.location.href=(number+1)+".html";
 	}else{
-		window.location.href="/?interface=explore";
+		window.location.href="http://ec2-34-223-227-182.us-west-2.compute.amazonaws.com:8383/?interface=explore";
 	}
 }
 var goLeft = function(){
