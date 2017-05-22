@@ -316,7 +316,7 @@ var Map = (function(){
 		 //       features: (new ol.format.GeoJSON()).readFeatures(routesGeoJson)
 		    var vectorSource = new ol.source.Vector({
 		      format: new ol.format.GeoJSON(),
-		      url : "http://localhost:8383/routes/4/9"
+		      url : "http://localhost/routes/4/9"
 		    }); 
 		    var routeLayer = new ol.layer.Vector({
 			  source: vectorSource,
