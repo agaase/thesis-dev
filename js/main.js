@@ -2,15 +2,15 @@ var App = (function(){
 	var stmt, selectedBtn, timer, pos;
 	var storyline = [
 		["Nearly three-fourth areas of Delhi are taking atleast 20% longer to commute on any given time or day"],
-		["More than one-third are taking atleast 50% longer","This means, for every 1 hour of commute people will spend 30 mins extra"],
-		["4 to 7pm sees the most of traffic. Half of Delhi takes 50% or longer"],
+		["More than one-fourth are taking atleast 50% longer","This means, for every 1 hour of commute people will spend 30 mins extra"],
+		["4 to 7pm sees the most of traffic. Half of Delhi takes 40% or longer"],
 		["Some areas take as much as 75% longer or spend 45 minutes extra for every 1 hour"],
 		["Morning commute between 8 to 11am is better than evening"],
 		["The areas which take most of the time also differ"],
-		["For distances less than 5kms only 10% of areas take 50% longer"],
+		["For distances less than 5kms only 7% of areas take 50% longer"],
 		["It gets worse as the distance to commute increases"],
-		["To reach Airport it takes 60% longer from these areas"],
-		["From central Delhi it would take on average 75% longer"],
+		["To reach Airport it takes 50% longer from these areas"],
+		["From central Delhi it would take on average 70% longer"],
 		["<a class='under' href='http://slowingdelhi.study'>slowingdelhi.study</a><br><br>The objective is to spread awareness about the criticality of the situation.<br><br> Help Delhi by sharing your own insights <a href='https://twitter.com/slowingdelhi' class='under'>@slowingdelhi</a><br><br>Aseem Agarwal<br>www.aseemagarwal.in"]
 	]
 
@@ -155,10 +155,11 @@ var App = (function(){
 				pos=ct;
 			}else if(ct==8){
 				reset();
-				var feature = DataOp.findTileHavingCoordinate(["77.120283", "28.5641431"]);
+				//"77.120283", "28.5641431"
+				var feature = DataOp.findTileHavingCoordinate(["77.0951183","28.553767"]);
 				Map.renderTo(feature.properties.tile_id,feature.properties.centroid,function(){
 					stmtUpdate(storyline[ct][0],true);	
-					Slider.changePosition(60);
+					Slider.changePosition(50);
 				});
 				btnHighlight(nodes[ct]);
 				pos=ct;
