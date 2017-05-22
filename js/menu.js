@@ -214,7 +214,7 @@
 					ele = d3.select(".results.to")
 				}
 				ele.html("");
-				d3.json(DataOp.config.localUrl+"/places/"+d3.select(this).node().value,function(resp){
+				d3.json(DataOp.config.localUrl+":8383/places/"+d3.select(this).node().value,function(resp){
 					var results = resp.results;
 					var atleastOneValid = false;
 					if(results.length){

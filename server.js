@@ -3,7 +3,7 @@ var cors = require('cors');
 var req = require('request');
 var app = express();
 app.use(cors());
-app.set('port', 80);
+app.set('port', 8383);
 
 //The public directory where all the static resources are served from
 app.use(express.static('./'));
