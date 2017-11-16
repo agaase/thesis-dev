@@ -56,7 +56,7 @@ var Routes = (function(){
 					"time" : v._source.time,
 					"day" : v._source.day,
 					"dist" : Math.ceil(v._source.dist/1000),
-					"url" : "https://www.google.com/maps/dir/?api=1&origin="+tileCoord[v._source.tFr].reverse()+"&destination="+tileCoord[v._source.tEn].reverse()
+					"url" : "https://www.google.com/maps/dir/?api=1&origin="+tileCoord[v._source.tFr][1]+","+tileCoord[v._source.tFr][0]+"&destination="+tileCoord[v._source.tEn][1]+","+tileCoord[v._source.tEn][0]
 				})
 			});
 			// var geojson;
