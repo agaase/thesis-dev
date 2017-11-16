@@ -153,7 +153,7 @@
 	  }
 	},
 	"top_routes": {
-		"size": 200,
+		"size": 500,
 	    "query": {
 	        "match_all": {}
 	    },
