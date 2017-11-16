@@ -151,5 +151,18 @@
 	      }
 	    }
 	  }
+	},
+	"top_routes": {
+		"size": 200,
+	    "query": {
+	        "match_all": {}
+	    },
+	    "sort": [
+	       {
+	          "ratio": {
+	             "order": "desc"
+	          }
+	       }
+	    ]
 	}
 }
